@@ -1,0 +1,92 @@
+/* Layout */
+.shelter-dashboard-container { padding: 40px 0; min-height: 100vh; background: #f8fafc; }
+.page-header { margin-bottom: 40px; }
+.page-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+.page-subtitle { font-size: 1.2rem; color: #6b7280; }
+
+.stats-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px; }
+.stat-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.stat-icon.pets { background: #dbeafe; }
+.stat-icon.adopted { background: #d1fae5; }
+.stat-icon.pending { background: #fef3c7; }
+.stat-icon.total { background: #f3e8ff; }
+.stat-change { color: #10b981; font-size: 14px; font-weight: 600; }
+.stat-change.negative { color: #ef4444; }
+.stat-number { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+.stat-label { color: #6b7280; font-weight: 500; }
+
+.quick-actions { background: white; border-radius: 12px; padding: 24px; margin-bottom: 40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.section-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 20px; }
+.actions-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.recent-activity { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 40px; }
+.activity-list { }
+.activity-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+.activity-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; }
+.activity-icon.plus { background: #dbeafe; }
+.activity-icon.check { background: #d1fae5; }
+.activity-icon.heart { background: #fef3c7; }
+.activity-icon.times { background: #fee2e2; }
+.activity-title { font-size: 14px; color: #374151; margin-bottom: 2px; }
+.activity-time { font-size: 12px; color: #6b7280; }
+
+.my-pets-preview { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.pets-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.pets-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0; }
+.btn-sm { padding: 8px 16px; }
+.loading-container, .no-pets { text-align: center; padding: 40px 0; }
+.loading-container .spinner { margin: 0 auto 20px; }
+.no-pets .icon { font-size: 3rem; color: #d1d5db; margin-bottom: 16px; }
+.no-pets h4 { color: #6b7280; margin-bottom: 8px; }
+.no-pets p { color: #9ca3af; margin-bottom: 20px; }
+.pets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.pet-info { padding: 16px; }
+.pet-name { font-size: 1.1rem; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+.pet-meta { color: #6b7280; }
+.pet-footer { display: flex; justify-content: space-between; align-items: center; }
+
+@media (max-width: 768px) {
+  .stats-overview { grid-template-columns: 1fr; }
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.activity-item:hover {
+  background: #f9fafb;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.pet-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Icon color utilities */
+.icon-primary { color: #3b82f6; }
+.icon-success { color: #10b981; }
+.icon-warning { color: #f59e0b; }
+.icon-danger { color: #ef4444; }
+.icon-purple { color: #8b5cf6; }
+.icon-xs { font-size: 12px; }
+
+/* Flex helper */
+.flex-1 { flex: 1; }
+
+@media (max-width: 768px) {
+  .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-actions div {
+    flex-direction: column;
+  }
+
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
+}

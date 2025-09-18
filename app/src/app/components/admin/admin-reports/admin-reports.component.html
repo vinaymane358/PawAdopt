@@ -1,0 +1,224 @@
+<div class="admin-reports-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        Reports & Analytics
+      </h1>
+      <p class="page-subtitle">
+        Comprehensive insights and analytics about your pet adoption platform.
+      </p>
+    </div>
+
+    <!-- Report Filters -->
+    <div class="report-filters">
+      <div class="report-filters-row">
+        <div class="filter-group">
+          <label class="form-label">Time Period</label>
+          <select class="form-select" [(ngModel)]="selectedPeriod" (ngModelChange)="updateReports()">
+            <option value="6months">Last 6 Months</option>
+            <option value="1year">Last Year</option>
+            <option value="2years">Last 2 Years</option>
+            <option value="all">All Time</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="form-label">Report Type</label>
+          <select class="form-select" [(ngModel)]="selectedReportType" (ngModelChange)="updateReports()">
+            <option value="overview">Overview</option>
+            <option value="adoptions">Adoptions</option>
+            <option value="breeds">Breed Analysis</option>
+            <option value="shelters">Shelter Performance</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <button class="btn btn-primary export-btn" (click)="exportReport()">
+            <i class="fas fa-download"></i> Export Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overview Report -->
+    <div *ngIf="selectedReportType === 'overview'" class="report-section">
+      <!-- Key Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-top">
+            <div class="metric-icon pets">
+              <i class="fas fa-paw" style="font-size: 1.5rem; color: #3b82f6;"></i>
+            </div>
+            <span style="color: #10b981; font-size: 14px; font-weight: 600;">+12%</span>
+          </div>
+          <div class="metric-number">
+            {{ totalPets }}
+          </div>
+          <div class="metric-label">
+            Total Pets
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top">
+            <div class="metric-icon adopt">
+              <i class="fas fa-heart" style="font-size: 1.5rem; color: #10b981;"></i>
+            </div>
+            <span style="color: #10b981; font-size: 14px; font-weight: 600;">+8%</span>
+          </div>
+          <div class="metric-number">
+            {{ totalAdoptions }}
+          </div>
+          <div class="metric-label">
+            Total Adoptions
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top">
+            <div class="metric-icon users">
+              <i class="fas fa-users" style="font-size: 1.5rem; color: #f59e0b;"></i>
+            </div>
+            <span style="color: #10b981; font-size: 14px; font-weight: 600;">+15%</span>
+          </div>
+          <div class="metric-number">
+            {{ totalUsers }}
+          </div>
+          <div class="metric-label">
+            Total Users
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top">
+            <div class="metric-icon shelters">
+              <i class="fas fa-home" style="font-size: 1.5rem; color: #8b5cf6;"></i>
+            </div>
+            <span style="color: #10b981; font-size: 14px; font-weight: 600;">+5%</span>
+          </div>
+          <div class="metric-number">
+            {{ totalShelters }}
+          </div>
+          <div class="metric-label">
+            Partner Shelters
+          </div>
+        </div>
+      </div>
+
+      <!-- Adoption Trends Chart -->
+      <div class="chart-container">
+        <h3 class="chart-title">
+          Adoption Trends Over Time
+        </h3>
+        <div class="chart">
+          <div *ngFor="let trend of adoptionTrends; let i = index" 
+               class="chart-bar" 
+               [style.height.%]="(trend.adoptions / maxAdoptions) * 100"
+               [style.background]="'linear-gradient(to top, #3b82f6, #60a5fa)'"
+               >
+            <div class="chart-value">
+              {{ trend.adoptions }}
+            </div>
+            <div class="chart-label">
+              {{ trend.month }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breed Analysis Report -->
+    <div *ngIf="selectedReportType === 'breeds'" class="report-section">
+      <div class="breed-analysis">
+        <h3 class="chart-title">
+          Breed Popularity Analysis
+        </h3>
+        <div class="breed-list">
+          <div *ngFor="let breed of breedPopularity" 
+               class="breed-item">
+            <div class="breed-rank">
+              {{ breedPopularity.indexOf(breed) + 1 }}
+            </div>
+            <div class="breed-info">
+              <div class="breed-name">
+                {{ breed.breed }}
+              </div>
+              <div class="breed-meta">
+                {{ breed.count }} pets • {{ breed.percentage }}% of total
+              </div>
+            </div>
+            <div class="breed-bar" [style.width.%]="breed.percentage">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shelter Performance Report -->
+    <div *ngIf="selectedReportType === 'shelters'" class="report-section">
+      <div class="shelter-performance">
+        <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 24px;">
+          Shelter Performance
+        </h3>
+        <div class="shelter-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Shelter Name</th>
+                <th>Total Pets</th>
+                <th>Adoptions</th>
+                <th>Pending Requests</th>
+                <th>Success Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let shelter of shelterActivity">
+                <td class="shelter-name">{{ shelter.shelterName }}</td>
+                <td>{{ shelter.totalPets }}</td>
+                <td>{{ shelter.adoptions }}</td>
+                <td>{{ shelter.pendingRequests }}</td>
+                <td>
+                  <span class="success-rate" [style.color]="getSuccessRateColor(shelter.adoptions / shelter.totalPets)">
+                    {{ (shelter.adoptions / shelter.totalPets * 100).toFixed(1) }}%
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Insights -->
+    <div class="insights-section">
+      <h3 class="chart-title">
+        Key Insights
+      </h3>
+      <div class="insights-grid">
+        <div class="insight-item growth">
+          <h4 style="font-size: 1rem; font-weight: 600; color: #1e40af; margin-bottom: 8px;">
+            <i class="fas fa-trending-up" style="margin-right: 8px;"></i>
+            Growth Trend
+          </h4>
+          <p style="color: #6b7280; font-size: 14px; margin: 0;">
+            Adoptions have increased by 12% compared to the previous period, indicating strong platform growth.
+          </p>
+        </div>
+        <div class="insight-item top">
+          <h4 style="font-size: 1rem; font-weight: 600; color: #065f46; margin-bottom: 8px;">
+            <i class="fas fa-star" style="margin-right: 8px;"></i>
+            Top Performer
+          </h4>
+          <p style="color: #6b7280; font-size: 14px; margin: 0;">
+            Golden Retrievers are the most popular breed, representing 32% of all adoptions.
+          </p>
+        </div>
+        <div class="insight-item response">
+          <h4 style="font-size: 1rem; font-weight: 600; color: #92400e; margin-bottom: 8px;">
+            <i class="fas fa-clock" style="margin-right: 8px;"></i>
+            Response Time
+          </h4>
+          <p style="color: #6b7280; font-size: 14px; margin: 0;">
+            Average adoption request processing time is 2.3 days, well within our 3-day target.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

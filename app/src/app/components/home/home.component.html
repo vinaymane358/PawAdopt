@@ -1,0 +1,163 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <h1>Find Your Perfect Pet Companion</h1>
+    <p>Connect with loving pets waiting for their forever home. Browse our selection of adorable dogs and cats ready for adoption.</p>
+    <div class="hero-actions">
+      <a routerLink="/pets" class="btn btn-primary btn-lg">Browse Pets</a>
+      <a routerLink="/about" class="btn btn-outline btn-lg">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- Pet Gallery Section removed as requested -->
+
+<!-- Featured Pets Section -->
+<section class="featured-pets-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        Featured Pets
+      </h2>
+      <p class="section-subtitle">
+        Meet some of our amazing pets looking for loving families. Each one has a unique personality and story.
+      </p>
+    </div>
+
+    <div class="row" *ngIf="!loading; else loadingTemplate">
+      <div class="col-4" *ngFor="let pet of featuredPets">
+        <div class="pet-card">
+          <img [src]="pet.imageUrl || 'assets/Indie_Dog.jpg'" [alt]="pet.name" class="pet-image" 
+               (error)="onImageError($event)">
+          <div class="pet-info">
+            <h3 class="pet-name">{{ pet.name }}</h3>
+            <p class="pet-breed">{{ pet.breed }}</p>
+            <p class="pet-age">{{ pet.age }} years old • {{ pet.size }}</p>
+            <p class="pet-shelter">{{ pet.shelterName }}</p>
+            <div class="pet-actions">
+              <a [routerLink]="['/pets', pet.id]" class="btn btn-primary">
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loadingTemplate>
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading featured pets...</p>
+      </div>
+    </ng-template>
+
+    <div class="featured-cta">
+      <a routerLink="/pets" class="btn btn-outline btn-lg">
+        View All Pets
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="stats">
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Pets Adopted</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Partner Shelters</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-number">1000+</div>
+          <div class="stat-label">Happy Families</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Support Available</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        How It Works
+      </h2>
+      <p class="section-subtitle">
+        Our simple process makes it easy to find and adopt your perfect pet companion.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <div class="step-card">
+          <div class="step-icon primary">
+            <i class="fas fa-search" style="font-size: 2rem; color: white;"></i>
+          </div>
+          <h3 class="step-title">
+            1. Browse Pets
+          </h3>
+          <p class="step-text">
+            Search through our database of available pets. Filter by breed, age, size, and location to find your perfect match.
+          </p>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="step-card">
+          <div class="step-icon success">
+            <i class="fas fa-heart" style="font-size: 2rem; color: white;"></i>
+          </div>
+          <h3 class="step-title">
+            2. Submit Request
+          </h3>
+          <p class="step-text">
+            Found a pet you love? Submit an adoption request with your information and why you'd be a great match.
+          </p>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="step-card">
+          <div class="step-icon warning">
+            <i class="fas fa-home" style="font-size: 2rem; color: white;"></i>
+          </div>
+          <h3 class="step-title">
+            3. Welcome Home
+          </h3>
+          <p class="step-text">
+            Once approved, complete the adoption process and welcome your new family member home!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+  <div class="container">
+    <h2 class="cta-title">
+      Ready to Find Your New Best Friend?
+    </h2>
+    <p class="cta-subtitle">
+      Join thousands of families who have found their perfect pet through PawAdopt.
+    </p>
+    <a routerLink="/pets" class="btn btn-primary btn-lg btn-invert">
+      Start Your Search Today
+    </a>
+  </div>
+</section>

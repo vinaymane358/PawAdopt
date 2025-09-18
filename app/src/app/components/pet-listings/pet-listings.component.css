@@ -1,0 +1,177 @@
+.pets-grid .pet-card {
+  height: 100%;
+}
+
+.pet-listings-container {
+  padding: 40px 0;
+  min-height: 100vh;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.results-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.pet-list-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pet-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Buttons in filter */
+.btn-tall {
+  height: 48px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+/* Results count */
+.results-count {
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Toggle buttons */
+.toggle-btn {
+  padding: 8px 12px;
+}
+
+/* Loading spinner alignment */
+.spinner-centered {
+  margin: 0 auto 20px;
+}
+
+/* No results */
+.no-results-icon {
+  font-size: 4rem;
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+
+.no-results-title {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.no-results-text {
+  color: #9ca3af;
+  margin-bottom: 30px;
+}
+
+/* Pet grid actions */
+.pet-actions-spacing {
+  margin-top: 16px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* List view styles */
+.list-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pet-details {
+  flex: 1;
+}
+
+.list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.detail-line {
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.shelter-line {
+  color: #3b82f6;
+  margin-bottom: 8px;
+}
+
+.description-line {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.list-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .pet-list-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .pet-list-item img {
+    width: 100%;
+    height: 200px;
+  }
+}

@@ -1,0 +1,199 @@
+<div class="admin-dashboard-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        Admin Dashboard
+      </h1>
+      <p class="page-subtitle">
+        Welcome back! Here's an overview of your platform's performance.
+      </p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon pets">
+            <i class="fas fa-paw" style="font-size: 1.5rem; color: #3b82f6;"></i>
+          </div>
+          <span class="stat-change">
+            +12% from last month
+          </span>
+        </div>
+        <div class="stat-number">
+          {{ stats?.totalPets || 0 }}
+        </div>
+        <div class="stat-label">
+          Total Pets
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon adopted">
+            <i class="fas fa-heart" style="font-size: 1.5rem; color: #10b981;"></i>
+          </div>
+          <span class="stat-change">
+            +8% from last month
+          </span>
+        </div>
+        <div class="stat-number">
+          {{ stats?.adoptedPets || 0 }}
+        </div>
+        <div class="stat-label">
+          Adopted Pets
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon pending">
+            <i class="fas fa-clock" style="font-size: 1.5rem; color: #f59e0b;"></i>
+          </div>
+          <span class="stat-change negative">
+            +3 from yesterday
+          </span>
+        </div>
+        <div class="stat-number">
+          {{ stats?.pendingRequests || 0 }}
+        </div>
+        <div class="stat-label">
+          Pending Requests
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon users">
+            <i class="fas fa-users" style="font-size: 1.5rem; color: #8b5cf6;"></i>
+          </div>
+          <span class="stat-change">
+            +15% from last month
+          </span>
+        </div>
+        <div class="stat-number">
+          {{ stats?.totalUsers || 0 }}
+        </div>
+        <div class="stat-label">
+          Total Users
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Adoption Trends Chart -->
+      <div class="chart-card">
+        <h3 class="chart-title">
+          Adoption Trends (Last 6 Months)
+        </h3>
+        <div class="chart-container">
+          <div *ngFor="let trend of adoptionTrends; let i = index" 
+               class="chart-bar" 
+               [style.height.%]="(trend.adoptions / maxAdoptions) * 100"
+               [style.background]="'linear-gradient(to top, #3b82f6, #60a5fa)'"
+               >
+            <div class="chart-value">
+              {{ trend.adoptions }}
+            </div>
+            <div class="chart-label">
+              {{ trend.month }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breed Popularity Chart -->
+      <div class="chart-card">
+        <h3 class="chart-title">
+          Popular Breeds
+        </h3>
+        <div class="breed-list">
+          <div *ngFor="let breed of breedPopularity" 
+               class="breed-item">
+            <div class="breed-bar" [style.width.%]="breed.percentage">
+            </div>
+            <div class="breed-text">
+              <div class="breed-name">{{ breed.breed }}</div>
+              <div class="breed-meta">{{ breed.count }} pets ({{ breed.percentage }}%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity and Quick Actions -->
+    <div class="bottom-section">
+      <!-- Recent Activity -->
+      <div class="activity-card">
+        <h3 class="section-title">
+          Recent Activity
+        </h3>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon plus">
+              <i class="fas fa-plus" style="font-size: 12px; color: #3b82f6;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div class="activity-title">New pet added: Buddy</div>
+              <div class="activity-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon check">
+              <i class="fas fa-check" style="font-size: 12px; color: #10b981;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div class="activity-title">Adoption request approved</div>
+              <div class="activity-time">4 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon user">
+              <i class="fas fa-user" style="font-size: 12px; color: #f59e0b;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div class="activity-title">New user registered</div>
+              <div class="activity-time">6 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon times">
+              <i class="fas fa-times" style="font-size: 12px; color: #ef4444;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div class="activity-title">Adoption request rejected</div>
+              <div class="activity-time">1 day ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="actions-card">
+        <h3 class="section-title">
+          Quick Actions
+        </h3>
+        <div class="action-buttons">
+          <a routerLink="/admin/pets" class="btn btn-primary btn-left">
+            <i class="fas fa-plus icon-left"></i>
+            Add New Pet
+          </a>
+          <a routerLink="/admin/requests" class="btn btn-outline btn-left">
+            <i class="fas fa-list icon-left"></i>
+            Manage Requests
+          </a>
+          <a routerLink="/admin/users" class="btn btn-outline btn-left">
+            <i class="fas fa-users icon-left"></i>
+            View Users
+          </a>
+          <a routerLink="/admin/reports" class="btn btn-outline btn-left">
+            <i class="fas fa-chart-bar icon-left"></i>
+            View Reports
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

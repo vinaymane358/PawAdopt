@@ -1,0 +1,61 @@
+.profile-card {
+  transition: all 0.3s ease;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.action-buttons .btn {
+  display: flex;
+  align-items: center;
+}
+
+/* Layout */
+.user-profile-container { padding: 40px 0; min-height: 100vh; }
+.page-header { text-align: center; margin-bottom: 40px; }
+.page-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
+.page-subtitle { font-size: 1.2rem; color: #6b7280; max-width: 600px; margin: 0 auto; }
+
+.profile-card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px; }
+.profile-card .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.card-title { font-size: 1.5rem; font-weight: 600; color: #1f2937; margin: 0; }
+.alert { margin-bottom: 20px; }
+.form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 30px; }
+
+.profile-info { }
+.info-row { display: flex; padding: 16px 0; border-bottom: 1px solid #e5e7eb; }
+.info-label { flex: 0 0 200px; font-weight: 600; color: #374151; }
+.info-value { color: #6b7280; }
+
+.stats-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px; }
+.stats-card h3 { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 20px; }
+.stat-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+.stat-item:last-child { border-bottom: none; }
+.stat-label { color: #6b7280; }
+.stat-value { font-weight: 600; color: #1f2937; }
+
+.actions-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.action-buttons { display: flex; flex-direction: column; gap: 12px; }
+.btn-left { text-align: left; justify-content: flex-start; }
+.icon-left { margin-right: 8px; }
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col-8, .col-4 {
+    flex: 0 0 100%;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .info-row > div:first-child {
+    flex: none;
+    margin-bottom: 4px;
+  }
+}

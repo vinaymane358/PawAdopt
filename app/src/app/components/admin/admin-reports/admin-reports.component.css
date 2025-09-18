@@ -1,0 +1,95 @@
+.metric-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.chart-bar:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.breed-item:hover {
+  background: #f3f4f6;
+  transition: background 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.insight-item:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Layout */
+.admin-reports-container { padding: 40px 0; min-height: 100vh; background: #f8fafc; }
+.page-header { margin-bottom: 40px; }
+.page-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+.page-subtitle { font-size: 1.2rem; color: #6b7280; }
+
+.report-filters { background: white; border-radius: 12px; padding: 24px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.report-filters-row { display: flex; gap: 20px; align-items: end; flex-wrap: wrap; }
+.filter-group { min-width: 150px; }
+.export-btn { height: 48px; }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px; }
+.metric-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.metric-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.metric-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.metric-icon.pets { background: #dbeafe; }
+.metric-icon.adopt { background: #d1fae5; }
+.metric-icon.users { background: #fef3c7; }
+.metric-icon.shelters { background: #f3e8ff; }
+.metric-number { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+.metric-label { color: #6b7280; font-weight: 500; }
+
+.chart-container { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 30px; }
+.chart-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 24px; }
+.chart { height: 300px; display: flex; align-items: end; justify-content: space-between; padding: 20px 0; }
+.chart-bar { flex: 1; margin: 0 4px; border-radius: 4px 4px 0 0; position: relative; min-height: 20px; }
+.chart-value, .chart-label { position: absolute; left: 50%; transform: translateX(-50%); font-size: 12px; color: #6b7280; white-space: nowrap; }
+.chart-value { top: -25px; }
+.chart-label { bottom: -25px; }
+
+.breed-analysis { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.breed-list { }
+.breed-item { display: flex; align-items: center; margin-bottom: 20px; padding: 16px; background: #f9fafb; border-radius: 8px; }
+.breed-rank { width: 40px; height: 40px; background: #3b82f6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 16px; }
+.breed-info { flex: 1; }
+.breed-name { font-size: 1.1rem; font-weight: 600; color: #1f2937; margin-bottom: 4px; }
+.breed-meta { color: #6b7280; font-size: 14px; }
+.breed-bar { height: 8px; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 4px; margin-left: 16px; min-width: 100px; }
+
+.shelter-performance { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.shelter-table { overflow-x: auto; }
+.shelter-name { font-weight: 600; color: #1f2937; }
+.success-rate { font-weight: 600; }
+
+.insights-section { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-top: 30px; }
+.insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.insight-item { padding: 16px; border-radius: 8px; }
+.insight-item.growth { background: #f0f9ff; border-left: 4px solid #3b82f6; }
+.insight-item.top { background: #f0fdf4; border-left: 4px solid #10b981; }
+.insight-item.response { background: #fefce8; border-left: 4px solid #f59e0b; }
+
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .breed-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .breed-bar {
+    margin-left: 0 !important;
+    margin-top: 12px;
+  }
+}

@@ -1,0 +1,85 @@
+<div class="app-container">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a routerLink="/" class="navbar-brand">
+          <i class="fas fa-paw"></i> PawAdopt
+        </a>
+        
+        <ul class="navbar-nav">
+          <li><a routerLink="/" class="nav-link">Home</a></li>
+          <li><a routerLink="/pets" class="nav-link">Find Pets</a></li>
+          <li><a routerLink="/about" class="nav-link">About</a></li>
+          <li><a routerLink="/contact" class="nav-link">Contact</a></li>
+          
+          <ng-container *ngIf="!isAuthenticated">
+            <li><a routerLink="/auth" class="nav-link">Login/Register</a></li>
+          </ng-container>
+          
+          <ng-container *ngIf="isAuthenticated">
+            <li><a routerLink="/my-requests" class="nav-link">My Requests</a></li>
+            <li><a routerLink="/profile" class="nav-link">Profile</a></li>
+            <ng-container *ngIf="isShelter">
+              <li><a routerLink="/shelter" class="nav-link">Shelter Dashboard</a></li>
+            </ng-container>
+            <ng-container *ngIf="isAdmin">
+              <li><a routerLink="/admin" class="nav-link">Admin</a></li>
+            </ng-container>
+            <li>
+              <button class="btn btn-outline" (click)="logout()">
+                Logout
+              </button>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <h3 class="footer-title">
+            <i class="fas fa-paw"></i> PawAdopt
+          </h3>
+          <p class="footer-text">
+            Connecting loving families with pets in need of a forever home.
+          </p>
+        </div>
+        <div class="col-4">
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/pets">Find Pets</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-4">
+          <h4 class="footer-title">Contact Info</h4>
+          <p class="footer-text" style="margin-bottom: 8px;">
+            <i class="fas fa-envelope"></i> info&#64;pawadopt.com
+          </p>
+          <p class="footer-text" style="margin-bottom: 8px;">
+            <i class="fas fa-phone"></i> (555) 123-4567
+          </p>
+          <p class="footer-text">
+            <i class="fas fa-map-marker-alt"></i> 123 Pet Street, City, State 12345
+          </p>
+        </div>
+      </div>
+      <hr class="footer-hr">
+      <p class="footer-copy">
+        &copy; 2024 PawAdopt. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</div>

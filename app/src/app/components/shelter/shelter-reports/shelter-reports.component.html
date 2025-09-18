@@ -1,0 +1,175 @@
+<div class="shelter-reports-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header page-header-spaced">
+      <h1 class="page-title">
+        Shelter Reports
+      </h1>
+      <p class="page-subtitle">
+        Analytics and insights for your shelter's performance and pet adoption trends.
+      </p>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="metrics-grid grid-cards">
+      <div class="metric-card card">
+        <div class="metric-top">
+          <div class="metric-icon metric-icon-blue">
+            <i class="fas fa-paw icon-lg icon-primary"></i>
+          </div>
+          <span class="metric-change positive">+12% this month</span>
+        </div>
+        <div class="metric-number">
+          {{ totalPets }}
+        </div>
+        <div class="metric-label">
+          Total Pets
+        </div>
+      </div>
+
+      <div class="metric-card card">
+        <div class="metric-top">
+          <div class="metric-icon metric-icon-green">
+            <i class="fas fa-heart icon-lg icon-success"></i>
+          </div>
+          <span class="metric-change positive">+8% this month</span>
+        </div>
+        <div class="metric-number">
+          {{ adoptedPets }}
+        </div>
+        <div class="metric-label">
+          Adopted Pets
+        </div>
+      </div>
+
+      <div class="metric-card card">
+        <div class="metric-top">
+          <div class="metric-icon metric-icon-amber">
+            <i class="fas fa-clock icon-lg icon-warning"></i>
+          </div>
+          <span class="metric-change negative">+3 this week</span>
+        </div>
+        <div class="metric-number">
+          {{ pendingRequests }}
+        </div>
+        <div class="metric-label">
+          Pending Requests
+        </div>
+      </div>
+
+      <div class="metric-card card">
+        <div class="metric-top">
+          <div class="metric-icon metric-icon-purple">
+            <i class="fas fa-percentage icon-lg icon-purple"></i>
+          </div>
+          <span class="metric-change positive">+5% this month</span>
+        </div>
+        <div class="metric-number">
+          {{ adoptionRate }}%
+        </div>
+        <div class="metric-label">
+          Adoption Rate
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section grid-two">
+      <!-- Adoption Trends -->
+      <div class="chart-card card">
+        <h3 class="chart-title">
+          Adoption Trends (Last 6 Months)
+        </h3>
+        <div class="chart-placeholder placeholder">
+          <div class="text-center">
+            <i class="fas fa-chart-line icon-3x text-muted"></i>
+            <p>Chart visualization would be here</p>
+            <p class="text-sm">Jan: 5, Feb: 8, Mar: 12, Apr: 15, May: 18, Jun: 22</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pet Status Distribution -->
+      <div class="chart-card card">
+        <h3 class="chart-title">
+          Pet Status Distribution
+        </h3>
+        <div class="chart-placeholder placeholder">
+          <div class="text-center">
+            <i class="fas fa-chart-pie icon-3x text-muted"></i>
+            <p>Pie chart would be here</p>
+            <p class="text-sm">Available: 15, Adopted: 25, Pending: 8</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Reports -->
+    <div class="reports-grid grid-two">
+      <!-- Top Breeds -->
+      <div class="report-card card">
+        <h3 class="chart-title">
+          Most Popular Breeds
+        </h3>
+        <div class="breed-list">
+          <div class="breed-item" *ngFor="let breed of topBreeds; let i = index" 
+               class="breed-row">
+            <div class="row-inline gap-12">
+              <span class="badge-circle">
+                {{ i + 1 }}
+              </span>
+              <span class="breed-name">{{ breed.name }}</span>
+            </div>
+            <span class="breed-count">{{ breed.count }} pets</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="report-card card">
+        <h3 class="chart-title">
+          Recent Activity
+        </h3>
+        <div class="activity-list">
+          <div class="activity-item" *ngFor="let activity of recentActivity" 
+               class="activity-row">
+            <div class="activity-icon activity-icon-blue">
+              <i [class]="activity.icon" class="icon-xs icon-primary"></i>
+            </div>
+            <div class="flex-1">
+              <div class="activity-desc">{{ activity.description }}</div>
+              <div class="activity-time">{{ activity.time }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Summary -->
+    <div class="monthly-summary card">
+      <h3 class="chart-title">
+        This Month's Summary
+      </h3>
+      <div class="summary-grid grid-auto">
+        <div class="summary-item summary-tile">
+          <div class="summary-number text-primary">{{ monthlyStats.newPets }}</div>
+          <div class="summary-label">New Pets Added</div>
+        </div>
+        <div class="summary-item summary-tile">
+          <div class="summary-number text-success">{{ monthlyStats.adoptions }}</div>
+          <div class="summary-label">Successful Adoptions</div>
+        </div>
+        <div class="summary-item summary-tile">
+          <div class="summary-number text-warning">{{ monthlyStats.requests }}</div>
+          <div class="summary-label">New Requests</div>
+        </div>
+        <div class="summary-item summary-tile">
+          <div class="summary-number text-purple">{{ monthlyStats.avgResponseTime }}h</div>
+          <div class="summary-label">Avg Response Time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

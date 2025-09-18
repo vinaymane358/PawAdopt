@@ -1,0 +1,145 @@
+<div class="contact-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        Contact Us
+      </h1>
+      <p class="page-subtitle">
+        Have questions about our platform or need help with an adoption? We're here to help!
+      </p>
+    </div>
+
+    <div class="row">
+      <!-- Contact Form -->
+      <div class="col-8">
+        <div class="contact-form-card">
+          <h2>
+            Send us a Message
+          </h2>
+
+          <!-- Alert Messages -->
+          <div *ngIf="alertMessage" class="alert" [ngClass]="alertType">
+            {{ alertMessage }}
+          </div>
+
+          <form [formGroup]="contactForm" (ngSubmit)="submitContactForm()">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="firstName"
+                    placeholder="Your first name">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="lastName"
+                    placeholder="Your last name">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                formControlName="email"
+                placeholder="your.email@example.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-select" formControlName="subject">
+                <option value="">Select a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="adoption">Adoption Question</option>
+                <option value="technical">Technical Support</option>
+                <option value="partnership">Partnership Inquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea 
+                class="form-control textarea-resizable" 
+                formControlName="message"
+                placeholder="Tell us how we can help you..."
+                rows="6">
+              </textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn btn-primary btn-lg btn-block" 
+              [disabled]="contactForm.invalid || loading">
+              <span *ngIf="loading" class="spinner spinner-inline"></span>
+              {{ loading ? 'Sending...' : 'Send Message' }}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="col-4">
+        <!-- Contact Details -->
+        <div class="contact-info-card">
+          <h3>
+            Get in Touch
+          </h3>
+          
+          <div class="contact-item">
+            <div class="contact-icon email">
+              <i class="fas fa-envelope" style="color: #3b82f6;"></i>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">info&#64;pawadopt.com</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon phone">
+              <i class="fas fa-phone" style="color: #10b981;"></i>
+            </div>
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">(555) 123-4567</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon address">
+              <i class="fas fa-map-marker-alt" style="color: #f59e0b;"></i>
+            </div>
+            <div>
+              <div class="contact-label">Address</div>
+              <div class="contact-value">123 Pet Street<br>New York, NY 10001</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon hours">
+              <i class="fas fa-clock" style="color: #8b5cf6;"></i>
+            </div>
+            <div>
+              <div class="contact-label">Hours</div>
+              <div class="contact-value">Mon-Fri: 9AM-6PM<br>Sat-Sun: 10AM-4PM</div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</div>

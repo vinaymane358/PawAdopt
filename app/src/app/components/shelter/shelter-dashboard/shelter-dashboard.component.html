@@ -1,0 +1,190 @@
+<div class="shelter-dashboard-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        Shelter Dashboard
+      </h1>
+      <p class="page-subtitle">
+        Manage your pets and adoption requests for {{ currentUser?.firstName }} {{ currentUser?.lastName }}.
+      </p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon pets">
+            <i class="fas fa-paw icon-primary"></i>
+          </div>
+          <span class="stat-change">+2 this week</span>
+        </div>
+        <div class="stat-number">
+          {{ myPets.length }}
+        </div>
+        <div class="stat-label">
+          Total Pets
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon adopted">
+            <i class="fas fa-heart icon-success"></i>
+          </div>
+          <span class="stat-change">+1 this week</span>
+        </div>
+        <div class="stat-number">
+          {{ adoptedPets }}
+        </div>
+        <div class="stat-label">
+          Adopted Pets
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon pending">
+            <i class="fas fa-clock icon-warning"></i>
+          </div>
+          <span class="stat-change negative">+3 today</span>
+        </div>
+        <div class="stat-number">
+          {{ pendingRequests }}
+        </div>
+        <div class="stat-label">
+          Pending Requests
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon total">
+            <i class="fas fa-users icon-purple"></i>
+          </div>
+          <span class="stat-change">+5 this month</span>
+        </div>
+        <div class="stat-number">
+          {{ totalRequests }}
+        </div>
+        <div class="stat-label">
+          Total Requests
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="section-title">
+        Quick Actions
+      </h3>
+      <div class="actions-row">
+        <a routerLink="/shelter/pets" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Add New Pet
+        </a>
+        <a routerLink="/shelter/requests" class="btn btn-outline">
+          <i class="fas fa-list"></i> Manage Requests
+        </a>
+        <a routerLink="/shelter/pets" class="btn btn-outline">
+          <i class="fas fa-edit"></i> Edit Pets
+        </a>
+        <a routerLink="/shelter/reports" class="btn btn-outline">
+          <i class="fas fa-chart-bar"></i> View Reports
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-activity">
+      <h3 class="section-title">
+        Recent Activity
+      </h3>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-icon plus">
+            <i class="fas fa-plus icon-xs icon-primary"></i>
+          </div>
+          <div class="flex-1">
+            <div class="activity-title">New pet added: Luna</div>
+            <div class="activity-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon check">
+            <i class="fas fa-check icon-xs icon-success"></i>
+          </div>
+          <div class="flex-1">
+            <div class="activity-title">Adoption request approved for Buddy</div>
+            <div class="activity-time">4 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon heart">
+            <i class="fas fa-heart icon-xs icon-warning"></i>
+          </div>
+          <div class="flex-1">
+            <div class="activity-title">New adoption request for Max</div>
+            <div class="activity-time">6 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon times">
+            <i class="fas fa-times icon-xs icon-danger"></i>
+          </div>
+          <div class="flex-1">
+            <div class="activity-title">Adoption request rejected for Bella</div>
+            <div class="activity-time">1 day ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Pets Preview -->
+    <div class="my-pets-preview">
+      <div class="pets-header">
+        <h3 class="pets-title">
+          My Pets
+        </h3>
+        <a routerLink="/shelter/pets" class="btn btn-outline btn-sm">
+          View All
+        </a>
+      </div>
+      
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading pets...</p>
+      </div>
+
+      <div *ngIf="!loading && myPets.length === 0" class="no-pets">
+        <i class="fas fa-paw icon"></i>
+        <h4>No pets yet</h4>
+        <p>Start by adding your first pet to the platform.</p>
+        <a routerLink="/shelter/pets" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Add Pet
+        </a>
+      </div>
+
+      <div *ngIf="!loading && myPets.length > 0" class="pets-grid">
+        <div class="pet-card" *ngFor="let pet of myPets.slice(0, 4)">
+          <img [src]="pet.imageUrl" [alt]="pet.name" class="pet-image" 
+               (error)="onImageError($event)">
+          <div class="pet-info">
+            <h4 class="pet-name">
+              {{ pet.name }}
+            </h4>
+            <p class="pet-meta">{{ pet.breed }}</p>
+            <p class="pet-meta">{{ pet.age }} years old • {{ pet.size }}</p>
+            <div class="pet-footer">
+              <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
+                {{ pet.status }}
+              </span>
+              <a routerLink="/shelter/pets" class="btn btn-outline btn-sm">
+                Edit
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

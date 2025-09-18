@@ -1,0 +1,269 @@
+<div class="admin-user-management-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">
+        User Management
+      </h1>
+      <p class="page-subtitle">
+        Manage user accounts, roles, and permissions across the platform.
+      </p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stat-card">
+        <div class="stat-icon users">
+          <i class="fas fa-users" style="font-size: 1.5rem; color: #3b82f6;"></i>
+        </div>
+        <div class="stat-number">
+          {{ totalUsers }}
+        </div>
+        <div class="stat-label">
+          Total Users
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon active">
+          <i class="fas fa-user-check" style="font-size: 1.5rem; color: #10b981;"></i>
+        </div>
+        <div class="stat-number">
+          {{ activeUsers }}
+        </div>
+        <div class="stat-label">
+          Active Users
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon admins">
+          <i class="fas fa-user-shield" style="font-size: 1.5rem; color: #f59e0b;"></i>
+        </div>
+        <div class="stat-number">
+          {{ adminUsers }}
+        </div>
+        <div class="stat-label">
+          Admin Users
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon blocked">
+          <i class="fas fa-user-times" style="font-size: 1.5rem; color: #ef4444;"></i>
+        </div>
+        <div class="stat-number">
+          {{ blockedUsers }}
+        </div>
+        <div class="stat-label">
+          Blocked Users
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="search-filter">
+      <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="form-label">Search</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="search"
+              placeholder="Search by name or email">
+          </div>
+          <div class="filter-group min-150">
+            <label class="form-label">Role</label>
+            <select class="form-select" formControlName="role">
+              <option value="">All Roles</option>
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+              <option value="SuperAdmin">Super Admin</option>
+            </select>
+          </div>
+          <div class="filter-group min-150">
+            <label class="form-label">Status</label>
+            <select class="form-select" formControlName="status">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <button type="submit" class="btn btn-primary" style="height: 48px;">
+              <i class="fas fa-search"></i> Search
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="clearFilters()" style="height: 48px; margin-left: 10px;">
+              <i class="fas fa-times"></i> Clear
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Users Table -->
+    <div class="users-table-container">
+      <div class="table-header">
+        <h3 class="table-title">
+          Users ({{ filteredUsers.length }})
+        </h3>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading users...</p>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="!loading && filteredUsers.length === 0" class="no-results">
+        <i class="fas fa-users" style="font-size: 4rem; color: #d1d5db; margin-bottom: 20px;"></i>
+        <h3 style="color: #6b7280; margin-bottom: 16px;">No users found</h3>
+        <p style="color: #9ca3af;">Try adjusting your search criteria.</p>
+      </div>
+
+      <!-- Users Table -->
+      <div *ngIf="!loading && filteredUsers.length > 0" class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers">
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar">
+                    <i class="fas fa-user" style="color: #9ca3af;"></i>
+                  </div>
+                  <div>
+                    <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
+                    <div class="user-phone">{{ user.phone || 'No phone' }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="role-badge" [ngClass]="'role-' + user.role.toLowerCase()">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td>
+                <span class="status-badge" [ngClass]="user.isActive ? 'status-approved' : 'status-rejected'">
+                  {{ user.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td>{{ user.createdAt | date:'short' }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-outline btn-xs" (click)="viewUser(user)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button 
+                    *ngIf="user.role !== 'SuperAdmin'"
+                    class="btn btn-outline btn-xs" 
+                    (click)="toggleUserStatus(user)" 
+                    [class.btn-danger]="user.isActive"
+                    [class.btn-success]="!user.isActive">
+                    <i class="fas" [class.fa-ban]="user.isActive" [class.fa-check]="!user.isActive"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Details Modal -->
+  <div *ngIf="showUserModal" class="modal" (click)="closeUserModal($event)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">User Details</h2>
+        <button class="close-btn" (click)="closeUserModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedUser">
+        <div class="user-details">
+          <div class="user-header">
+            <div class="user-avatar-large">
+              <i class="fas fa-user" style="font-size: 2rem; color: #9ca3af;"></i>
+            </div>
+            <div>
+              <h3 class="info-title">
+                {{ selectedUser.firstName }} {{ selectedUser.lastName }}
+              </h3>
+              <p style="color: #6b7280; margin-bottom: 4px;">{{ selectedUser.email }}</p>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <span class="role-badge" [ngClass]="'role-' + selectedUser.role.toLowerCase()">
+                  {{ selectedUser.role }}
+                </span>
+                <span class="status-badge" [ngClass]="selectedUser.isActive ? 'status-approved' : 'status-rejected'">
+                  {{ selectedUser.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-info-grid">
+            <div class="info-group">
+              <h4 class="info-title">Contact Information</h4>
+              <div class="info-item">
+                <strong>Phone:</strong>
+                <span>{{ selectedUser.phone || 'Not provided' }}</span>
+              </div>
+              <div class="info-item">
+                <strong>Address:</strong>
+                <span>{{ selectedUser.address || 'Not provided' }}</span>
+              </div>
+              <div class="info-item">
+                <strong>Location:</strong>
+                <span>
+                  {{ selectedUser.city }}{{ selectedUser.state ? ', ' + selectedUser.state : '' }}{{ selectedUser.zipCode ? ' ' + selectedUser.zipCode : '' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="info-group">
+              <h4 class="info-title">Account Information</h4>
+              <div class="info-item">
+                <strong>Member Since:</strong>
+                <span>{{ selectedUser.createdAt | date:'medium' }}</span>
+              </div>
+              <div class="info-item">
+                <strong>Last Updated:</strong>
+                <span>{{ selectedUser.updatedAt | date:'medium' }}</span>
+              </div>
+              <div class="info-item">
+                <strong>Account Status:</strong>
+                <span>{{ selectedUser.isActive ? 'Active' : 'Inactive' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer modal-footer-actions">
+        <button class="btn btn-secondary" (click)="closeUserModal()">
+          Close
+        </button>
+        <button 
+          *ngIf="selectedUser && selectedUser.role !== 'SuperAdmin'"
+          class="btn" 
+          [class.btn-danger]="selectedUser.isActive"
+          [class.btn-success]="!selectedUser.isActive"
+          (click)="toggleUserStatus(selectedUser); closeUserModal()">
+          {{ selectedUser.isActive ? 'Block User' : 'Activate User' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

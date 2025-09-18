@@ -1,0 +1,155 @@
+.hero-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-lg {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+}
+
+.pet-actions {
+  margin-top: 16px;
+}
+
+.step-card {
+  text-align: center;
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+}
+
+.step-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+.step-icon.primary { background: #3b82f6; }
+.step-icon.success { background: #10b981; }
+.step-icon.warning { background: #f59e0b; }
+
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.step-text {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+/* Sections */
+.featured-pets-section {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #AA7DFF -76.5%, #F4EEFF 100%) !important;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.loading-container .spinner {
+  margin: 0 auto 20px;
+}
+
+.featured-cta {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.stats {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #AA7DFF -76.5%, #F4EEFF 100%) !important;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.how-it-works {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #AA7DFF -76.5%, #F4EEFF 100%) !important;
+}
+
+.cta {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #AA7DFF -76.5%, #F4EEFF 100%) !important;
+  color: white;
+  text-align: center;
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.cta-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.btn-invert {
+  background: white;
+  color: #3b82f6;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+}

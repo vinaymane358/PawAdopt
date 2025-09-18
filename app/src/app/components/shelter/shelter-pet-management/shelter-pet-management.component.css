@@ -1,0 +1,83 @@
+.table-responsive {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  background: #f9fafb;
+  z-index: 10;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Container */
+.shelter-pet-management-container { padding: 40px 0; min-height: 100vh; background: #f8fafc; }
+
+/* Header */
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+.page-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+.page-subtitle { font-size: 1.2rem; color: #6b7280; }
+
+/* Card and table */
+.card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.overflow-hidden { overflow: hidden; }
+.header-padded { padding: 20px; border-bottom: 1px solid #e5e7eb; background: #f9fafb; }
+.table-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0; }
+.overflow-x-auto { overflow-x: auto; }
+
+/* Filter row */
+.filter-row-flex { display: flex; gap: 20px; flex-wrap: wrap; align-items: end; }
+.filter-grow { flex: 1; min-width: 200px; }
+.filter-min { min-width: 150px; }
+.btn-tall { height: 48px; }
+.ml-10 { margin-left: 10px; }
+
+/* Loading/empty states */
+.center-padded { text-align: center; padding: 60px 0; }
+.spinner-centered { margin: 0 auto 20px; }
+.no-results-icon { font-size: 4rem; color: #d1d5db; margin-bottom: 20px; }
+.no-results-title { color: #6b7280; margin-bottom: 16px; }
+.no-results-text { color: #9ca3af; margin-bottom: 30px; }
+
+/* Table cells */
+.row-inline { display: flex; align-items: center; }
+.gap-12 { gap: 12px; }
+.gap-8 { gap: 8px; }
+.thumb-50 { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
+.cell-title { font-weight: 600; color: #1f2937; }
+.cell-subtitle { font-size: 12px; color: #6b7280; }
+.btn-compact { padding: 6px 12px; font-size: 12px; }
+
+/* Modal */
+.modal-wide { max-width: 800px; width: 90%; }
+.footer-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.mr-8 { margin-right: 8px; }
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .table-responsive {
+    font-size: 14px;
+  }
+}
