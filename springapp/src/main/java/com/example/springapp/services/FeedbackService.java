@@ -1,6 +1,8 @@
 package com.example.springapp.services;
 
 import com.example.springapp.model.Feedback;
+import com.example.springapp.model.User;
+import com.example.springapp.model.Pet;
 import com.example.springapp.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,19 @@ public class FeedbackService {
     }
 
     public Feedback saveFeedback(Feedback feedback) {
+        // Create User and Pet objects with the provided IDs
+        if (feedback.getUserId() != null) {
+            User user = new User();
+            user.setId(feedback.getUserId());
+            feedback.setUser(user);
+        }
+        
+        if (feedback.getPetId() != null) {
+            Pet pet = new Pet();
+            pet.setId(feedback.getPetId());
+            feedback.setPet(pet);
+        }
+        
         return feedbackRepository.save(feedback);
     }
 

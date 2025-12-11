@@ -5,10 +5,11 @@ import com.example.springapp.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     private final UserService userService;
 
@@ -18,12 +19,12 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userService.findUsersWithDetails();
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public User getUserById(@PathVariable Long id) {
+        return userService.findUserWithDetailsById(id);
     }
 
     @PostMapping
@@ -45,17 +46,26 @@ public class UserController {
     // ✅ Extra Endpoints using JPQL queries
     @GetMapping("/email/{email}")
     public User getUserByEmail(@PathVariable String email) {
-        return userService.findByEmail(email);
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            // Load the user with details to avoid lazy loading issues
+            return userService.findUserWithDetailsById(user.getId());
+        }
+        return user;
     }
 
     @GetMapping("/role/{role}")
     public List<User> getUsersByRole(@PathVariable String role) {
-        return userService.findByRole(role);
+        return userService.findUsersWithDetails().stream()
+                .filter(user -> user.getRole().equals(role))
+                .toList();
     }
 
     @GetMapping("/search/{keyword}")
     public List<User> searchUsersByName(@PathVariable String keyword) {
-        return userService.searchByName(keyword);
+        return userService.findUsersWithDetails().stream()
+                .filter(user -> (user.getFirstName() + " " + user.getLastName()).toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     @GetMapping("/with-details")

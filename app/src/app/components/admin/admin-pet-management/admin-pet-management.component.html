@@ -36,15 +36,6 @@
               <option value="Pending">Pending</option>
             </select>
           </div>
-          <div class="filter-group" style="min-width: 150px;">
-            <label class="form-label">Size</label>
-            <select class="form-select" formControlName="size">
-              <option value="">All Sizes</option>
-              <option value="Small">Small</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-            </select>
-          </div>
           <div class="filter-group">
             <button type="submit" class="btn btn-primary" style="height: 48px;">
               <i class="fas fa-search"></i> Search
@@ -89,7 +80,6 @@
               <th>Pet</th>
               <th>Breed</th>
               <th>Age</th>
-              <th>Size</th>
               <th>Shelter</th>
               <th>Status</th>
               <th>Actions</th>
@@ -110,7 +100,6 @@
               </td>
               <td>{{ pet.breed }}</td>
               <td>{{ pet.age }} years</td>
-              <td>{{ pet.size }}</td>
               <td>{{ pet.shelterName }}</td>
               <td>
                 <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
@@ -176,17 +165,6 @@
                   class="form-control" 
                   formControlName="age"
                   placeholder="Age in years">
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="form-group">
-                <label class="form-label">Size *</label>
-                <select class="form-select" formControlName="size">
-                  <option value="">Select size</option>
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
-                </select>
               </div>
             </div>
             <div class="col-4">
@@ -268,35 +246,13 @@
                   placeholder="https://example.com/image.jpg">
               </div>
             </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label class="form-label">Special Needs</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  formControlName="specialNeeds"
-                  placeholder="Any special care requirements">
-              </div>
-            </div>
           </div>
 
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" formControlName="vaccinated" style="margin: 0;">
-                  Vaccinated
-                </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" formControlName="spayedNeutered" style="margin: 0;">
-                  Spayed/Neutered
-                </label>
-              </div>
-            </div>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" formControlName="vaccinated" style="margin: 0;">
+              Vaccinated
+            </label>
           </div>
         </form>
       </div>

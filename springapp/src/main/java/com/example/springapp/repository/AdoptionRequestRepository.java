@@ -23,6 +23,10 @@ public interface AdoptionRequestRepository extends JpaRepository<AdoptionRequest
     List<AdoptionRequest> findByPetId(Long petId);
 
     // JPQL Query: Find requests sorted by most recent date
-    @Query("SELECT ar FROM AdoptionRequest ar ORDER BY ar.requestDate DESC")
+    @Query("SELECT ar FROM AdoptionRequest ar ORDER BY ar.requestedAt DESC")
     List<AdoptionRequest> findAllSortedByDate();
+
+    // JPQL Query: Find requests by Shelter ID
+    @Query("SELECT ar FROM AdoptionRequest ar WHERE ar.shelter.id = :shelterId")
+    List<AdoptionRequest> findByShelterId(Long shelterId);
 }

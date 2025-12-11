@@ -1,186 +1,350 @@
 <div class="shelter-dashboard-container">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+      <div class="shape shape-6"></div>
+    </div>
+  </div>
+
   <div class="container">
-    <!-- Page Header -->
+    <!-- Modern Page Header -->
     <div class="page-header">
-      <h1 class="page-title">
-        Shelter Dashboard
-      </h1>
-      <p class="page-subtitle">
-        Manage your pets and adoption requests for {{ currentUser?.firstName }} {{ currentUser?.lastName }}.
-      </p>
+      <div class="header-content">
+        <div class="header-info">
+          <div class="header-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="header-text">
+            <h1 class="page-title">Shelter Dashboard</h1>
+            <p class="page-subtitle">Manage your pets and adoption requests for {{ currentUser?.firstName }} {{ currentUser?.lastName }}</p>
+          </div>
+        </div>
+        <div class="header-stats">
+          <div class="stat-item">
+            <div class="stat-number">{{ myPets.length }}</div>
+            <div class="stat-label">Total Pets</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ adoptedPets }}</div>
+            <div class="stat-label">Adopted</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Stats Overview -->
+    <!-- Modern Stats Overview -->
     <div class="stats-overview">
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon pets">
-            <i class="fas fa-paw icon-primary"></i>
+      <div class="stat-card total-pets">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-paw"></i>
           </div>
-          <span class="stat-change">+2 this week</span>
+          <div class="stat-trend positive">
+            <i class="fas fa-arrow-up"></i>
+            <span>+2 this week</span>
+          </div>
         </div>
-        <div class="stat-number">
-          {{ myPets.length }}
-        </div>
-        <div class="stat-label">
-          Total Pets
+        <div class="stat-content">
+          <div class="stat-number">{{ myPets.length }}</div>
+          <div class="stat-label">Total Pets</div>
+          <div class="stat-progress">
+            <div class="progress-bar" style="width: 75%"></div>
+          </div>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon adopted">
-            <i class="fas fa-heart icon-success"></i>
+      <div class="stat-card adopted-pets">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-heart"></i>
           </div>
-          <span class="stat-change">+1 this week</span>
+          <div class="stat-trend positive">
+            <i class="fas fa-arrow-up"></i>
+            <span>+1 this week</span>
+          </div>
         </div>
-        <div class="stat-number">
-          {{ adoptedPets }}
-        </div>
-        <div class="stat-label">
-          Adopted Pets
+        <div class="stat-content">
+          <div class="stat-number">{{ adoptedPets }}</div>
+          <div class="stat-label">Adopted Pets</div>
+          <div class="stat-progress">
+            <div class="progress-bar" style="width: 60%"></div>
+          </div>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon pending">
-            <i class="fas fa-clock icon-warning"></i>
+      <div class="stat-card pending-requests">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
           </div>
-          <span class="stat-change negative">+3 today</span>
+          <div class="stat-trend negative">
+            <i class="fas fa-arrow-up"></i>
+            <span>+3 today</span>
+          </div>
         </div>
-        <div class="stat-number">
-          {{ pendingRequests }}
-        </div>
-        <div class="stat-label">
-          Pending Requests
+        <div class="stat-content">
+          <div class="stat-number">{{ pendingRequests }}</div>
+          <div class="stat-label">Pending Requests</div>
+          <div class="stat-progress">
+            <div class="progress-bar" style="width: 45%"></div>
+          </div>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon total">
-            <i class="fas fa-users icon-purple"></i>
+      <div class="stat-card total-requests">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
           </div>
-          <span class="stat-change">+5 this month</span>
-        </div>
-        <div class="stat-number">
-          {{ totalRequests }}
-        </div>
-        <div class="stat-label">
-          Total Requests
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="quick-actions">
-      <h3 class="section-title">
-        Quick Actions
-      </h3>
-      <div class="actions-row">
-        <a routerLink="/shelter/pets" class="btn btn-primary">
-          <i class="fas fa-plus"></i> Add New Pet
-        </a>
-        <a routerLink="/shelter/requests" class="btn btn-outline">
-          <i class="fas fa-list"></i> Manage Requests
-        </a>
-        <a routerLink="/shelter/pets" class="btn btn-outline">
-          <i class="fas fa-edit"></i> Edit Pets
-        </a>
-        <a routerLink="/shelter/reports" class="btn btn-outline">
-          <i class="fas fa-chart-bar"></i> View Reports
-        </a>
-      </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="recent-activity">
-      <h3 class="section-title">
-        Recent Activity
-      </h3>
-      <div class="activity-list">
-        <div class="activity-item">
-          <div class="activity-icon plus">
-            <i class="fas fa-plus icon-xs icon-primary"></i>
-          </div>
-          <div class="flex-1">
-            <div class="activity-title">New pet added: Luna</div>
-            <div class="activity-time">2 hours ago</div>
+          <div class="stat-trend positive">
+            <i class="fas fa-arrow-up"></i>
+            <span>+5 this month</span>
           </div>
         </div>
-        <div class="activity-item">
-          <div class="activity-icon check">
-            <i class="fas fa-check icon-xs icon-success"></i>
-          </div>
-          <div class="flex-1">
-            <div class="activity-title">Adoption request approved for Buddy</div>
-            <div class="activity-time">4 hours ago</div>
-          </div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-icon heart">
-            <i class="fas fa-heart icon-xs icon-warning"></i>
-          </div>
-          <div class="flex-1">
-            <div class="activity-title">New adoption request for Max</div>
-            <div class="activity-time">6 hours ago</div>
-          </div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-icon times">
-            <i class="fas fa-times icon-xs icon-danger"></i>
-          </div>
-          <div class="flex-1">
-            <div class="activity-title">Adoption request rejected for Bella</div>
-            <div class="activity-time">1 day ago</div>
+        <div class="stat-content">
+          <div class="stat-number">{{ totalRequests }}</div>
+          <div class="stat-label">Total Requests</div>
+          <div class="stat-progress">
+            <div class="progress-bar" style="width: 85%"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- My Pets Preview -->
-    <div class="my-pets-preview">
-      <div class="pets-header">
-        <h3 class="pets-title">
-          My Pets
-        </h3>
-        <a routerLink="/shelter/pets" class="btn btn-outline btn-sm">
-          View All
-        </a>
+    <!-- Modern Quick Actions -->
+    <div class="quick-actions-section">
+      <div class="quick-actions-card">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="section-content">
+            <h3 class="section-title">Quick Actions</h3>
+            <p class="section-subtitle">Common tasks and shortcuts</p>
+          </div>
+        </div>
+        
+        <div class="actions-grid">
+          <a routerLink="/shelter/pets" class="action-card primary-action">
+            <div class="action-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <div class="action-content">
+              <div class="action-title">Add New Pet</div>
+              <div class="action-subtitle">Register a new pet for adoption</div>
+            </div>
+            <div class="action-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          
+          <a routerLink="/shelter/requests" class="action-card secondary-action">
+            <div class="action-icon">
+              <i class="fas fa-list"></i>
+            </div>
+            <div class="action-content">
+              <div class="action-title">Manage Requests</div>
+              <div class="action-subtitle">Review adoption applications</div>
+            </div>
+            <div class="action-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          
+          <a routerLink="/shelter/pets" class="action-card secondary-action">
+            <div class="action-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="action-content">
+              <div class="action-title">Edit Pets</div>
+              <div class="action-subtitle">Update pet information</div>
+            </div>
+            <div class="action-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          
+          <a routerLink="/shelter/reports" class="action-card secondary-action">
+            <div class="action-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="action-content">
+              <div class="action-title">View Reports</div>
+              <div class="action-subtitle">Analytics and insights</div>
+            </div>
+            <div class="action-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+        </div>
       </div>
-      
-      <div *ngIf="loading" class="loading-container">
-        <div class="spinner"></div>
-        <p>Loading pets...</p>
-      </div>
+    </div>
 
-      <div *ngIf="!loading && myPets.length === 0" class="no-pets">
-        <i class="fas fa-paw icon"></i>
-        <h4>No pets yet</h4>
-        <p>Start by adding your first pet to the platform.</p>
-        <a routerLink="/shelter/pets" class="btn btn-primary">
-          <i class="fas fa-plus"></i> Add Pet
-        </a>
+    <!-- Modern Recent Activity -->
+    <div class="recent-activity-section">
+      <div class="activity-card">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="section-content">
+            <h3 class="section-title">Recent Activity</h3>
+            <p class="section-subtitle">Latest updates and changes</p>
+          </div>
+        </div>
+        
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon plus">
+              <i class="fas fa-plus"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">New pet added: Luna</div>
+              <div class="activity-desc">A 2-year-old Golden Retriever</div>
+              <div class="activity-time">2 hours ago</div>
+            </div>
+            <div class="activity-status positive">
+              <i class="fas fa-check"></i>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon check">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">Adoption request approved for Buddy</div>
+              <div class="activity-desc">Application from Sarah Johnson</div>
+              <div class="activity-time">4 hours ago</div>
+            </div>
+            <div class="activity-status success">
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon heart">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">New adoption request for Max</div>
+              <div class="activity-desc">Application from Mike Wilson</div>
+              <div class="activity-time">6 hours ago</div>
+            </div>
+            <div class="activity-status warning">
+              <i class="fas fa-clock"></i>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon times">
+              <i class="fas fa-times"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">Adoption request rejected for Bella</div>
+              <div class="activity-desc">Application from Tom Brown</div>
+              <div class="activity-time">1 day ago</div>
+            </div>
+            <div class="activity-status error">
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div *ngIf="!loading && myPets.length > 0" class="pets-grid">
-        <div class="pet-card" *ngFor="let pet of myPets.slice(0, 4)">
-          <img [src]="pet.imageUrl" [alt]="pet.name" class="pet-image" 
-               (error)="onImageError($event)">
-          <div class="pet-info">
-            <h4 class="pet-name">
-              {{ pet.name }}
-            </h4>
-            <p class="pet-meta">{{ pet.breed }}</p>
-            <p class="pet-meta">{{ pet.age }} years old • {{ pet.size }}</p>
-            <div class="pet-footer">
-              <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
-                {{ pet.status }}
-              </span>
-              <a routerLink="/shelter/pets" class="btn btn-outline btn-sm">
-                Edit
-              </a>
+    <!-- Modern My Pets Preview -->
+    <div class="my-pets-section">
+      <div class="pets-card">
+        <div class="pets-header">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-paw"></i>
+            </div>
+            <div class="section-content">
+              <h3 class="section-title">My Pets</h3>
+              <p class="section-subtitle">Manage your pet listings</p>
+            </div>
+          </div>
+          <a routerLink="/shelter/pets" class="view-all-btn">
+            <i class="fas fa-eye"></i>
+            View All
+          </a>
+        </div>
+        
+        <div *ngIf="loading" class="loading-container">
+          <div class="loading-card">
+            <div class="loading-spinner">
+              <div class="spinner-ring"></div>
+              <div class="spinner-ring"></div>
+              <div class="spinner-ring"></div>
+            </div>
+            <h3>Loading Pets...</h3>
+            <p>Please wait while we fetch your pets</p>
+          </div>
+        </div>
+
+        <div *ngIf="!loading && myPets.length === 0" class="no-pets">
+          <div class="no-pets-card">
+            <div class="no-pets-icon">
+              <div class="icon-container">
+                <i class="fas fa-paw"></i>
+              </div>
+            </div>
+            <h3 class="no-pets-title">No pets yet</h3>
+            <p class="no-pets-message">Start by adding your first pet to the platform and help them find their forever home.</p>
+            <a routerLink="/shelter/pets" class="primary-btn">
+              <i class="fas fa-plus"></i>
+              Add Your First Pet
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="!loading && myPets.length > 0" class="pets-grid">
+          <div class="pet-card" *ngFor="let pet of myPets.slice(0, 4); let i = index">
+            <div class="pet-image-container">
+              <img [src]="pet.imageUrl" [alt]="pet.name" class="pet-image" 
+                   (error)="onImageError($event)">
+              
+              <div class="image-overlay">
+                <div class="pet-status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
+                  <i class="fas" [ngClass]="{
+                    'fa-heart': pet.status === 'Available',
+                    'fa-check-circle': pet.status === 'Adopted',
+                    'fa-clock': pet.status === 'Pending'
+                  }"></i>
+                  {{ pet.status }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="pet-info">
+              <div class="pet-header">
+                <h4 class="pet-name">{{ pet.name }}</h4>
+                <div class="pet-age">{{ pet.age }} years</div>
+              </div>
+              
+              <div class="pet-details">
+                <div class="detail-item">
+                  <i class="fas fa-dog"></i>
+                  <span>{{ pet.breed }}</span>
+                </div>
+              </div>
+              
+              <div class="pet-actions">
+                <a routerLink="/shelter/pets" class="edit-btn">
+                  <i class="fas fa-edit"></i>
+                  Edit Pet
+                </a>
+              </div>
             </div>
           </div>
         </div>

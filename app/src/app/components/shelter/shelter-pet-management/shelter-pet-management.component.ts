@@ -20,6 +20,7 @@ export class ShelterPetManagementComponent implements OnInit {
   editingPet: Pet | null = null;
   saving = false;
   currentUser: any = null;
+  imagePreviewDataUrl: string | null = null;
 
   filterForm: FormGroup;
   petForm: FormGroup;
@@ -31,24 +32,21 @@ export class ShelterPetManagementComponent implements OnInit {
   ) {
     this.filterForm = this.fb.group({
       search: [''],
-      status: [''],
-      size: ['']
+      status: ['']
     });
 
     this.petForm = this.fb.group({
       name: ['', [Validators.required]],
       breed: ['', [Validators.required]],
       age: ['', [Validators.required, Validators.min(0)]],
-      size: ['', [Validators.required]],
+      petType: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       color: ['', [Validators.required]],
       description: ['', [Validators.required]],
       imageUrl: ['', [Validators.required]],
       location: ['', [Validators.required]],
       status: ['Available', [Validators.required]],
-      vaccinated: [false],
-      spayedNeutered: [false],
-      specialNeeds: ['None']
+      vaccinated: [false]
     });
   }
 
@@ -81,9 +79,8 @@ export class ShelterPetManagementComponent implements OnInit {
         pet.breed.toLowerCase().includes(filters.search.toLowerCase());
       
       const matchesStatus = !filters.status || pet.status === filters.status;
-      const matchesSize = !filters.size || pet.size === filters.size;
       
-      return matchesSearch && matchesStatus && matchesSize;
+      return matchesSearch && matchesStatus;
     });
   }
 
@@ -97,10 +94,12 @@ export class ShelterPetManagementComponent implements OnInit {
     this.petForm.reset();
     this.petForm.patchValue({
       status: 'Available',
+      petType: '',
       vaccinated: false,
       spayedNeutered: false,
       specialNeeds: 'None'
     });
+    this.imagePreviewDataUrl = null;
     this.showPetModal = true;
   }
 
@@ -110,17 +109,16 @@ export class ShelterPetManagementComponent implements OnInit {
       name: pet.name,
       breed: pet.breed,
       age: pet.age,
-      size: pet.size,
+      petType: pet.petType,
       gender: pet.gender,
       color: pet.color,
       description: pet.description,
       imageUrl: pet.imageUrl,
       location: pet.location,
       status: pet.status,
-      vaccinated: pet.vaccinated,
-      spayedNeutered: pet.spayedNeutered,
-      specialNeeds: pet.specialNeeds
+      vaccinated: pet.vaccinated
     });
+    this.imagePreviewDataUrl = pet.imageUrl?.startsWith('data:') ? pet.imageUrl : null;
     this.showPetModal = true;
   }
 
@@ -158,24 +156,58 @@ export class ShelterPetManagementComponent implements OnInit {
         });
       } else {
         // Add new pet
-        const newPetData = {
-          ...formValue,
-          shelterId: this.currentUser.id,
-          shelterName: this.currentUser.firstName + ' ' + this.currentUser.lastName
-        };
-        
-        this.petService.addPet(newPetData).subscribe({
+        // Resolve shelter id from backend by email to ensure relational link
+        const currentEmail = this.currentUser.email;
+        this.petService.getShelterByEmail(currentEmail).subscribe({
           next: (newPet) => {
-            this.pets.push(newPet);
-            this.filteredPets = [...this.pets];
-            this.saving = false;
-            this.closePetModal();
-            alert('Pet added successfully!');
+            const shelter = newPet; // endpoint returns shelter
+            const newPetData = {
+              ...formValue,
+              shelterId: (shelter && shelter.id) ? shelter.id.toString() : this.currentUser.id,
+              shelterName: (shelter && shelter.shelterName) ? shelter.shelterName : (
+                (this.currentUser.shelterName && this.currentUser.shelterName.trim())
+                || `${(this.currentUser.firstName || '').trim()} ${(this.currentUser.lastName || '').trim()}`.trim()
+                || 'Unknown Shelter')
+            };
+
+            this.petService.addPet(newPetData).subscribe({
+              next: (createdPet) => {
+                this.pets.push(createdPet);
+                this.filteredPets = [...this.pets];
+                this.saving = false;
+                this.closePetModal();
+                alert('Pet added successfully!');
+              },
+              error: (error) => {
+                this.saving = false;
+                console.error('Error adding pet:', error);
+                alert('Failed to add pet. Please try again.');
+              }
+            });
           },
           error: (error) => {
-            this.saving = false;
-            console.error('Error adding pet:', error);
-            alert('Failed to add pet. Please try again.');
+            // If lookup fails, fallback to using current user id
+            const fallbackPetData = {
+              ...formValue,
+              shelterId: this.currentUser.id,
+              shelterName: (this.currentUser.shelterName && this.currentUser.shelterName.trim())
+                || `${(this.currentUser.firstName || '').trim()} ${(this.currentUser.lastName || '').trim()}`.trim()
+                || 'Unknown Shelter'
+            };
+            this.petService.addPet(fallbackPetData).subscribe({
+              next: (createdPet) => {
+                this.pets.push(createdPet);
+                this.filteredPets = [...this.pets];
+                this.saving = false;
+                this.closePetModal();
+                alert('Pet added successfully!');
+              },
+              error: (err2) => {
+                this.saving = false;
+                console.error('Error adding pet after fallback:', err2);
+                alert('Failed to add pet. Please try again.');
+              }
+            });
           }
         });
       }
@@ -202,5 +234,26 @@ export class ShelterPetManagementComponent implements OnInit {
 
   onImageError(event: any) {
     event.target.src = 'img/default-pet.jpg';
+  }
+
+  onImageFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+    const file = input.files[0];
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      this.imagePreviewDataUrl = dataUrl;
+      this.petForm.get('imageUrl')?.setValue(dataUrl);
+      this.petForm.get('imageUrl')?.markAsDirty();
+      this.petForm.get('imageUrl')?.updateValueAndValidity();
+    };
+    reader.readAsDataURL(file);
   }
 }

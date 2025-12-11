@@ -28,15 +28,13 @@ export class AdminPetManagementComponent implements OnInit {
   ) {
     this.filterForm = this.fb.group({
       search: [''],
-      status: [''],
-      size: ['']
+      status: ['']
     });
 
     this.petForm = this.fb.group({
       name: ['', [Validators.required]],
       breed: ['', [Validators.required]],
       age: ['', [Validators.required, Validators.min(0)]],
-      size: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       color: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -44,9 +42,7 @@ export class AdminPetManagementComponent implements OnInit {
       shelterName: ['', [Validators.required]],
       location: ['', [Validators.required]],
       status: ['Available', [Validators.required]],
-      vaccinated: [false],
-      spayedNeutered: [false],
-      specialNeeds: ['None']
+      vaccinated: [false]
     });
   }
 
@@ -78,9 +74,8 @@ export class AdminPetManagementComponent implements OnInit {
         pet.shelterName.toLowerCase().includes(filters.search.toLowerCase());
       
       const matchesStatus = !filters.status || pet.status === filters.status;
-      const matchesSize = !filters.size || pet.size === filters.size;
       
-      return matchesSearch && matchesStatus && matchesSize;
+      return matchesSearch && matchesStatus;
     });
   }
 
@@ -107,7 +102,6 @@ export class AdminPetManagementComponent implements OnInit {
       name: pet.name,
       breed: pet.breed,
       age: pet.age,
-      size: pet.size,
       gender: pet.gender,
       color: pet.color,
       description: pet.description,
@@ -115,9 +109,7 @@ export class AdminPetManagementComponent implements OnInit {
       shelterName: pet.shelterName,
       location: pet.location,
       status: pet.status,
-      vaccinated: pet.vaccinated,
-      spayedNeutered: pet.spayedNeutered,
-      specialNeeds: pet.specialNeeds
+      vaccinated: pet.vaccinated
     });
     this.showPetModal = true;
   }

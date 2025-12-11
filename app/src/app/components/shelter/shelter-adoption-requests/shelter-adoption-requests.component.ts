@@ -48,21 +48,25 @@ export class ShelterAdoptionRequestsComponent implements OnInit {
 
   loadRequests() {
     this.loading = true;
-    this.adoptionRequestService.getAllRequests().subscribe({
-      next: (requests) => {
-        // Filter requests for current shelter's pets
-        this.requests = requests.filter(request => 
-          request.shelterId === this.currentUser?.id
-        );
-        this.updateCounts();
-        this.filterRequests();
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading requests:', error);
-        this.loading = false;
-      }
-    });
+    console.log('🔍 Loading adoption requests for shelter:', this.currentUser);
+    if (this.currentUser?.id) {
+      this.adoptionRequestService.getRequestsByShelter(this.currentUser.id).subscribe({
+        next: (requests) => {
+          console.log('✅ Loaded adoption requests for shelter:', requests);
+          this.requests = requests;
+          this.updateCounts();
+          this.filterRequests();
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('❌ Error loading requests:', error);
+          this.loading = false;
+        }
+      });
+    } else {
+      console.log('❌ No current user ID found for shelter');
+      this.loading = false;
+    }
   }
 
   updateCounts() {

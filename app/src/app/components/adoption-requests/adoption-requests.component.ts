@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AdoptionRequestService } from '../../services/adoption-request.service';
@@ -12,7 +12,7 @@ import { AdoptionRequest } from '../../models/adoption-request.model';
   templateUrl: './adoption-requests.component.html',
   styleUrls: ['./adoption-requests.component.css']
 })
-export class AdoptionRequestsComponent implements OnInit {
+export class AdoptionRequestsComponent implements OnInit, OnDestroy {
   requests: AdoptionRequest[] = [];
   filteredRequests: AdoptionRequest[] = [];
   loading = true;
@@ -22,6 +22,8 @@ export class AdoptionRequestsComponent implements OnInit {
   approvedCount = 0;
   rejectedCount = 0;
   totalCount = 0;
+  
+  private refreshInterval: any;
 
   constructor(
     private adoptionRequestService: AdoptionRequestService,
@@ -34,18 +36,24 @@ export class AdoptionRequestsComponent implements OnInit {
 
   loadRequests() {
     const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) return;
+    console.log('🔍 Loading adoption requests for user:', currentUser);
+    
+    if (!currentUser) {
+      console.log('❌ No current user found');
+      return;
+    }
 
     this.loading = true;
     this.adoptionRequestService.getRequestsByUser(currentUser.id).subscribe({
       next: (requests) => {
+        console.log('✅ Loaded adoption requests for user:', requests);
         this.requests = requests;
         this.updateCounts();
         this.filterRequests();
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading requests:', error);
+        console.error('❌ Error loading requests:', error);
         this.loading = false;
       }
     });
@@ -72,6 +80,12 @@ export class AdoptionRequestsComponent implements OnInit {
   }
 
   onImageError(event: any) {
-    event.target.src = 'img/default-pet.jpg';
+    event.target.src = 'assets/pets/Indie_Dog.jpg';
+  }
+  
+  ngOnDestroy() {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
   }
 }

@@ -1,139 +1,305 @@
-<div class="adoption-requests-container">
+<div class="requests-container">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+  </div>
+
   <div class="container">
-    <!-- Page Header -->
+    <!-- Modern Page Header -->
     <div class="page-header">
-      <h1 class="page-title">
-        My Adoption Requests
-      </h1>
-      <p class="page-subtitle">
-        Track the status of your pet adoption requests and view your adoption history.
-      </p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-number" style="color: #f59e0b;">{{ pendingCount }}</div>
-        <div class="stat-label">Pending</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" style="color: #10b981;">{{ approvedCount }}</div>
-        <div class="stat-label">Approved</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" style="color: #ef4444;">{{ rejectedCount }}</div>
-        <div class="stat-label">Rejected</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" style="color: #3b82f6;">{{ totalCount }}</div>
-        <div class="stat-label">Total Requests</div>
+      <div class="header-content">
+        <div class="header-info">
+          <div class="header-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="header-text">
+            <h1 class="page-title">My Adoption Requests</h1>
+            <p class="page-subtitle">Track the status of your pet adoption requests and view your adoption history</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a routerLink="/pets" class="browse-btn">
+            <i class="fas fa-search"></i>
+            Browse Pets
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Filter Tabs -->
-    <div class="filter-tabs">
-      <button 
-        class="tab-btn" 
-        [class.active]="activeTab === 'all'"
-        (click)="setActiveTab('all')">
-        All ({{ totalCount }})
-      </button>
-      <button 
-        class="tab-btn" 
-        [class.active]="activeTab === 'pending'"
-        (click)="setActiveTab('pending')">
-        Pending ({{ pendingCount }})
-      </button>
-      <button 
-        class="tab-btn" 
-        [class.active]="activeTab === 'approved'"
-        (click)="setActiveTab('approved')">
-        Approved ({{ approvedCount }})
-      </button>
-      <button 
-        class="tab-btn" 
-        [class.active]="activeTab === 'rejected'"
-        (click)="setActiveTab('rejected')">
-        Rejected ({{ rejectedCount }})
-      </button>
+    <!-- Modern Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card pending">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ pendingCount }}</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width.%]="totalCount > 0 ? (pendingCount / totalCount) * 100 : 0"></div>
+        </div>
+      </div>
+      
+      <div class="stat-card approved">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ approvedCount }}</div>
+          <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width.%]="totalCount > 0 ? (approvedCount / totalCount) * 100 : 0"></div>
+        </div>
+      </div>
+      
+      <div class="stat-card rejected">
+        <div class="stat-icon">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ rejectedCount }}</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width.%]="totalCount > 0 ? (rejectedCount / totalCount) * 100 : 0"></div>
+        </div>
+      </div>
+      
+      <div class="stat-card total">
+        <div class="stat-icon">
+          <i class="fas fa-list"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ totalCount }}</div>
+          <div class="stat-label">Total Requests</div>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width.%]="100"></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Loading State -->
+    <!-- Modern Filter Tabs -->
+    <div class="filter-section">
+      <div class="filter-tabs">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'all'"
+          (click)="setActiveTab('all')">
+          <div class="tab-icon">
+            <i class="fas fa-list"></i>
+          </div>
+          <div class="tab-content">
+            <div class="tab-label">All</div>
+            <div class="tab-count">{{ totalCount }}</div>
+          </div>
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'pending'"
+          (click)="setActiveTab('pending')">
+          <div class="tab-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="tab-content">
+            <div class="tab-label">Pending</div>
+            <div class="tab-count">{{ pendingCount }}</div>
+          </div>
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'approved'"
+          (click)="setActiveTab('approved')">
+          <div class="tab-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="tab-content">
+            <div class="tab-label">Approved</div>
+            <div class="tab-count">{{ approvedCount }}</div>
+          </div>
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'rejected'"
+          (click)="setActiveTab('rejected')">
+          <div class="tab-icon">
+            <i class="fas fa-times-circle"></i>
+          </div>
+          <div class="tab-content">
+            <div class="tab-label">Rejected</div>
+            <div class="tab-count">{{ rejectedCount }}</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modern Loading State -->
     <div *ngIf="loading" class="loading-container">
-      <div class="spinner"></div>
-      <p>Loading your requests...</p>
+      <div class="loading-card">
+        <div class="loading-spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        <h3>Loading your requests...</h3>
+        <p>Please wait while we fetch your adoption requests</p>
+      </div>
     </div>
 
-    <!-- No Requests -->
+    <!-- Modern No Requests -->
     <div *ngIf="!loading && filteredRequests.length === 0" class="no-requests">
-      <i class="fas fa-heart" style="font-size: 4rem; color: #d1d5db; margin-bottom: 20px;"></i>
-      <h3 style="color: #6b7280; margin-bottom: 16px;">No requests found</h3>
-      <p style="color: #9ca3af; margin-bottom: 30px;">
-        {{ activeTab === 'all' ? 'You haven\'t made any adoption requests yet.' : 'No ' + activeTab + ' requests found.' }}
-      </p>
-      <a routerLink="/pets" class="btn btn-primary">
-        <i class="fas fa-search"></i> Browse Pets
-      </a>
+      <div class="no-requests-card">
+        <div class="no-requests-icon">
+          <div class="icon-container">
+            <i class="fas fa-heart"></i>
+          </div>
+        </div>
+        <h3 class="no-requests-title">No requests found</h3>
+        <p class="no-requests-message">
+          {{ activeTab === 'all' ? 'You haven\'t made any adoption requests yet.' : 'No ' + activeTab + ' requests found.' }}
+        </p>
+        <div class="no-requests-actions">
+          <a routerLink="/pets" class="primary-btn">
+            <i class="fas fa-search"></i>
+            Browse Pets
+          </a>
+          <a routerLink="/profile" class="secondary-btn">
+            <i class="fas fa-user"></i>
+            View Profile
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Requests List -->
+    <!-- Modern Requests List -->
     <div *ngIf="!loading && filteredRequests.length > 0" class="requests-list">
-      <div class="request-card" *ngFor="let request of filteredRequests">
-        
+      <div class="request-card" *ngFor="let request of filteredRequests; let i = index">
         <div class="request-header">
-          <img [src]="request.petImageUrl" [alt]="request.petName" (error)="onImageError($event)">
+          <div class="pet-image-container">
+            <img [src]="request.petImageUrl" [alt]="request.petName" (error)="onImageError($event)" class="pet-image">
+            <div class="image-overlay">
+              <div class="pet-status" [ngClass]="'status-' + request.status.toLowerCase()">
+                <i class="fas" [ngClass]="{
+                  'fa-clock': request.status === 'Pending',
+                  'fa-check-circle': request.status === 'Approved',
+                  'fa-times-circle': request.status === 'Rejected'
+                }"></i>
+              </div>
+            </div>
+          </div>
           
           <div class="request-info">
-            <h3>
-              {{ request.petName }}
-            </h3>
-            <p>
-              <strong>Requested:</strong> {{ request.requestedAt | date:'medium' }}
-            </p>
-            <p *ngIf="request.reviewedAt">
-              <strong>Reviewed:</strong> {{ request.reviewedAt | date:'medium' }}
-            </p>
+            <div class="pet-name">
+              <h3>{{ request.petName }}</h3>
+              <div class="request-id">Request #{{ request.id }}</div>
+            </div>
+            
+            <div class="request-timeline">
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <i class="fas fa-paper-plane"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Requested</div>
+                  <div class="timeline-date">{{ request.requestedAt | date:'MMM dd, yyyy' }}</div>
+                </div>
+              </div>
+              
+              <div class="timeline-item" *ngIf="request.reviewedAt">
+                <div class="timeline-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Reviewed</div>
+                  <div class="timeline-date">{{ request.reviewedAt | date:'MMM dd, yyyy' }}</div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="request-status">
-            <span class="status-badge" [ngClass]="'status-' + request.status.toLowerCase()">
-              {{ request.status }}
-            </span>
+          <div class="request-status-section">
+            <div class="status-badge" [ngClass]="'status-' + request.status.toLowerCase()">
+              <div class="status-icon">
+                <i class="fas" [ngClass]="{
+                  'fa-clock': request.status === 'Pending',
+                  'fa-check-circle': request.status === 'Approved',
+                  'fa-times-circle': request.status === 'Rejected'
+                }"></i>
+              </div>
+              <div class="status-text">{{ request.status }}</div>
+            </div>
           </div>
         </div>
 
         <div class="request-details">
-          <div class="request-message">
-            <h4>
-              Your Message:
-            </h4>
-            <p>
-              {{ request.message }}
-            </p>
-          </div>
+          <div class="details-grid">
+            <div class="request-message">
+              <div class="section-header">
+                <div class="section-icon">
+                  <i class="fas fa-comment"></i>
+                </div>
+                <h4>Your Message</h4>
+              </div>
+              <div class="message-content">
+                <p>{{ request.message }}</p>
+              </div>
+            </div>
 
-          <div *ngIf="request.adminComments" class="admin-comments">
-            <h4>
-              Admin Response:
-            </h4>
-            <p>
-              {{ request.adminComments }}
-            </p>
+            <div *ngIf="request.adminComments" class="admin-comments">
+              <div class="section-header">
+                <div class="section-icon">
+                  <i class="fas fa-reply"></i>
+                </div>
+                <h4>Admin Response</h4>
+              </div>
+              <div class="admin-content">
+                <p>{{ request.adminComments }}</p>
+              </div>
+            </div>
           </div>
 
           <div class="request-actions">
-            <a [routerLink]="['/pets', request.petId]" class="btn btn-outline">
-              <i class="fas fa-eye"></i> View Pet
+            <a [routerLink]="['/pets', request.petId]" class="action-btn primary">
+              <div class="btn-icon">
+                <i class="fas fa-eye"></i>
+              </div>
+              <div class="btn-content">
+                <div class="btn-title">View Pet</div>
+                <div class="btn-subtitle">See pet details</div>
+              </div>
+              <div class="btn-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
             </a>
-            <span *ngIf="request.status === 'Pending'" class="pending">
-              <i class="fas fa-clock"></i> Under review
-            </span>
-            <span *ngIf="request.status === 'Approved'" class="approved">
-              <i class="fas fa-check-circle"></i> Congratulations! Contact the shelter to proceed.
-            </span>
-            <span *ngIf="request.status === 'Rejected'" class="rejected">
-              <i class="fas fa-times-circle"></i> This request was not approved.
-            </span>
+            
+            <div class="status-message" [ngClass]="'status-' + request.status.toLowerCase()">
+              <div class="message-icon">
+                <i class="fas" [ngClass]="{
+                  'fa-clock': request.status === 'Pending',
+                  'fa-check-circle': request.status === 'Approved',
+                  'fa-times-circle': request.status === 'Rejected'
+                }"></i>
+              </div>
+              <div class="message-text">
+                <div *ngIf="request.status === 'Pending'" class="message-title">Under Review</div>
+                <div *ngIf="request.status === 'Approved'" class="message-title">Congratulations!</div>
+                <div *ngIf="request.status === 'Rejected'" class="message-title">Not Approved</div>
+                
+                <div *ngIf="request.status === 'Pending'" class="message-desc">Your request is being reviewed by our team</div>
+                <div *ngIf="request.status === 'Approved'" class="message-desc">Contact the shelter to proceed with adoption</div>
+                <div *ngIf="request.status === 'Rejected'" class="message-desc">This request was not approved at this time</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

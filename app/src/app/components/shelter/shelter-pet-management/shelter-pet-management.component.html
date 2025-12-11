@@ -36,15 +36,6 @@
               <option value="Pending">Pending</option>
             </select>
           </div>
-          <div class="filter-group filter-min">
-            <label class="form-label">Size</label>
-            <select class="form-select" formControlName="size">
-              <option value="">All Sizes</option>
-              <option value="Small">Small</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-            </select>
-          </div>
           <div class="filter-group">
             <button type="submit" class="btn btn-primary btn-tall">
               <i class="fas fa-search"></i> Search
@@ -89,7 +80,6 @@
               <th>Pet</th>
               <th>Breed</th>
               <th>Age</th>
-              <th>Size</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -109,7 +99,6 @@
               </td>
               <td>{{ pet.breed }}</td>
               <td>{{ pet.age }} years</td>
-              <td>{{ pet.size }}</td>
               <td>
                 <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
                   {{ pet.status }}
@@ -179,15 +168,18 @@
           </div>
           <div class="col-4">
             <div class="form-group">
-              <label class="form-label">Size *</label>
-              <select class="form-select" formControlName="size">
-                <option value="">Select size</option>
-                <option value="Small">Small</option>
-                <option value="Medium">Medium</option>
-                <option value="Large">Large</option>
+              <label class="form-label">Type *</label>
+              <select class="form-select" formControlName="petType">
+                <option value="">Select type</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
+        </div>
+
+        <div class="row">
           <div class="col-4">
             <div class="form-group">
               <label class="form-label">Gender *</label>
@@ -198,10 +190,7 @@
               </select>
             </div>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <div class="form-group">
               <label class="form-label">Color *</label>
               <input 
@@ -211,7 +200,7 @@
                 placeholder="e.g., Golden, Black, White">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <div class="form-group">
               <label class="form-label">Location *</label>
               <input 
@@ -246,41 +235,28 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <label class="form-label">Image URL *</label>
-              <input 
-                type="url" 
-                class="form-control" 
-                formControlName="imageUrl"
-                placeholder="https://example.com/image.jpg">
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label class="form-label">Special Needs</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="specialNeeds"
-                placeholder="Any special care requirements">
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" formControlName="vaccinated" style="margin: 0;">
-                Vaccinated
-              </label>
+              <label class="form-label">Image *</label>
+              <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                <input 
+                  type="url" 
+                  class="form-control" 
+                  formControlName="imageUrl"
+                  placeholder="Paste image URL or upload below">
+                <div style="display:flex; align-items:center; gap: 8px;">
+                  <input type="file" accept="image/*" (change)="onImageFileSelected($event)">
+                </div>
+                <div *ngIf="petForm.get('imageUrl')?.value" style="margin-top: 4px;">
+                  <img [src]="petForm.get('imageUrl')?.value" alt="Preview" class="thumb-50" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;">
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="checkbox" formControlName="spayedNeutered" style="margin: 0;">
-            Spayed/Neutered
+            <input type="checkbox" formControlName="vaccinated" style="margin: 0;">
+            Vaccinated
           </label>
         </div>
       </form>

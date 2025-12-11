@@ -28,19 +28,7 @@
       </button>
     </div>
 
-    <!-- Test Accounts Info -->
-    <div class="test-accounts info-box">
-      <h4 class="info-title">
-        <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
-        Test Accounts
-      </h4>
-      <div class="info-content">
-        <div><strong>Pet Adopter:</strong> user&#64;example.com / password</div>
-        <div><strong>Shelter:</strong> shelter&#64;example.com / shelter123</div>
-        <div><strong>Admin:</strong> admin&#64;example.com / admin123</div>
 
-      </div>
-    </div>
 
     <!-- Alert Messages -->
     <div *ngIf="alertMessage" class="alert" [ngClass]="alertType">
@@ -116,7 +104,8 @@
         </small>
       </div>
 
-      <div class="row">
+      <!-- Show first/last name for regular users -->
+      <div *ngIf="!isShelterRole" class="row">
         <div class="col-6">
           <div class="form-group">
             <label class="form-label">First Name</label>
@@ -144,6 +133,20 @@
               Last name is required
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Show shelter name for shelter users -->
+      <div *ngIf="isShelterRole" class="form-group">
+        <label class="form-label">Shelter Name</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          formControlName="shelterName"
+          placeholder="Enter shelter name">
+        <div *ngIf="registerForm.get('shelterName')?.invalid && registerForm.get('shelterName')?.touched" 
+             class="error-text">
+          Shelter name is required
         </div>
       </div>
 

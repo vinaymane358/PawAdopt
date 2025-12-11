@@ -1,170 +1,375 @@
 \<div class="pet-listings-container">
-  <div class="container">
-    <!-- Page Header -->
-    <div class="page-header">
-      <h1 class="page-title">
-        Find Your Perfect Pet
-      </h1>
-      <p class="page-subtitle">
-        Browse through our collection of loving pets waiting for their forever home.
-      </p>
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+      <div class="shape shape-6"></div>
     </div>
+  </div>
 
-    <!-- Search and Filter Section -->
-    <div class="search-filter">
-      <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-        <div class="filter-row">
-          <div class="filter-group">
-            <label class="form-label">Search</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              formControlName="search"
-              placeholder="Search by name, breed, or description">
+  <div class="container">
+    <!-- Modern Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-info">
+          <div class="header-icon">
+            <i class="fas fa-paw"></i>
           </div>
-          <div class="filter-group">
-            <label class="form-label">Breed</label>
-            <select class="form-select" formControlName="breed">
-              <option value="">All Breeds</option>
-              <option *ngFor="let breed of breeds" [value]="breed">{{ breed }}</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label class="form-label">Age</label>
-            <select class="form-select" formControlName="age">
-              <option value="">Any Age</option>
-              <option value="0-1">Puppy (0-1 years)</option>
-              <option value="1-3">Young (1-3 years)</option>
-              <option value="3-7">Adult (3-7 years)</option>
-              <option value="7+">Senior (7+ years)</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label class="form-label">Size</label>
-            <select class="form-select" formControlName="size">
-              <option value="">Any Size</option>
-              <option value="Small">Small</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label class="form-label">Location</label>
-            <select class="form-select" formControlName="location">
-              <option value="">All Locations</option>
-              <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <button type="submit" class="btn btn-primary btn-tall">
-              <i class="fas fa-search"></i> Search
-            </button>
-            <button type="button" class="btn btn-secondary btn-tall ml-10" (click)="clearFilters()">
-              <i class="fas fa-times"></i> Clear
-            </button>
+          <div class="header-text">
+            <h1 class="page-title">Find Your Perfect Pet</h1>
+            <p class="page-subtitle">Browse through our collection of loving pets waiting for their forever home</p>
           </div>
         </div>
-      </form>
-    </div>
-
-    <!-- Results Count -->
-    <div class="results-info">
-      <p class="results-count">
-        Showing {{ filteredPets.length }} pets
-      </p>
-      <div class="view-toggle">
-        <button 
-          class="btn" 
-          [class.btn-primary]="viewMode === 'grid'"
-          [class.btn-outline]="viewMode !== 'grid'"
-          (click)="setViewMode('grid')"
-          class="btn toggle-btn">
-          <i class="fas fa-th"></i>
-        </button>
-        <button 
-          class="btn" 
-          [class.btn-primary]="viewMode === 'list'"
-          [class.btn-outline]="viewMode !== 'list'"
-          (click)="setViewMode('list')"
-          class="btn toggle-btn">
-          <i class="fas fa-list"></i>
-        </button>
+        <div class="header-stats">
+          <div class="stat-item">
+            <div class="stat-number">{{ filteredPets.length }}</div>
+            <div class="stat-label">Available Pets</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ breeds.length }}</div>
+            <div class="stat-label">Breeds</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Loading State -->
+    <!-- Modern Search and Filter Section -->
+    <div class="search-filter-section">
+      <div class="search-filter-card">
+        <div class="filter-header">
+          <div class="filter-icon">
+            <i class="fas fa-filter"></i>
+          </div>
+          <div class="filter-content">
+            <h3 class="filter-title">Find Your Perfect Match</h3>
+            <p class="filter-subtitle">Use filters to narrow down your search</p>
+          </div>
+        </div>
+
+        <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="modern-filter-form">
+          <div class="filter-grid">
+            <div class="filter-group">
+              <label class="form-label">
+                <i class="fas fa-search"></i>
+                Search
+              </label>
+              <input 
+                type="text" 
+                class="form-input" 
+                formControlName="search"
+                placeholder="Search by name, breed, or description">
+            </div>
+            
+            <div class="filter-group">
+              <label class="form-label">
+                <i class="fas fa-dog"></i>
+                Breed
+              </label>
+              <select class="form-select" formControlName="breed">
+                <option value="">All Breeds</option>
+                <option *ngFor="let breed of breeds" [value]="breed">{{ breed }}</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label class="form-label">
+                <i class="fas fa-paw"></i>
+                Pet Type
+              </label>
+              <select class="form-select" formControlName="petType">
+                <option value="">All Pets</option>
+                <option value="dog">Dogs</option>
+                <option value="cat">Cats</option>
+                <option value="other">Others</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label class="form-label">
+                <i class="fas fa-birthday-cake"></i>
+                Age
+              </label>
+              <select class="form-select" formControlName="age">
+                <option value="">Any Age</option>
+                <option value="0-1">Puppy (0-1 years)</option>
+                <option value="1-2">Young (1-2 years)</option>
+                <option value="2-5">Adult (2-5 years)</option>
+                <option value="5-10">Mature (5-10 years)</option>
+                <option value="10+">Senior (10+ years)</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label class="form-label">
+                <i class="fas fa-map-marker-alt"></i>
+                Location
+              </label>
+              <select class="form-select" formControlName="location">
+                <option value="">All Locations</option>
+                <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+              </select>
+            </div>
+            
+            <div class="filter-actions">
+              <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+                Search Pets
+              </button>
+              <button type="button" class="clear-btn" (click)="clearFilters()">
+                <i class="fas fa-times"></i>
+                Clear Filters
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modern Results Section -->
+    <div class="results-section">
+      <div class="results-info">
+        <div class="results-stats">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-paw"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number">{{ filteredPets.length }}</div>
+              <div class="stat-label">Available Pets</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="view-controls">
+          <div class="view-toggle">
+            <button 
+              class="toggle-btn" 
+              [class.active]="viewMode === 'grid'"
+              (click)="setViewMode('grid')">
+              <div class="toggle-icon">
+                <i class="fas fa-th"></i>
+              </div>
+              <div class="toggle-label">Grid</div>
+            </button>
+            <button 
+              class="toggle-btn" 
+              [class.active]="viewMode === 'list'"
+              (click)="setViewMode('list')">
+              <div class="toggle-icon">
+                <i class="fas fa-list"></i>
+              </div>
+              <div class="toggle-label">List</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modern Loading State -->
     <div *ngIf="loading" class="loading-container">
-      <div class="spinner spinner-centered"></div>
-      <p>Loading pets...</p>
+      <div class="loading-card">
+        <div class="loading-spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        <h3>Finding Your Perfect Pets...</h3>
+        <p>Please wait while we search for available pets</p>
+      </div>
     </div>
 
-    <!-- No Results -->
+    <!-- Modern No Results -->
     <div *ngIf="!loading && filteredPets.length === 0" class="no-results">
-      <i class="fas fa-search no-results-icon"></i>
-      <h3 class="no-results-title">No pets found</h3>
-      <p class="no-results-text">Try adjusting your search criteria or clear the filters.</p>
-      <button class="btn btn-primary" (click)="clearFilters()">
-        Clear Filters
-      </button>
+      <div class="no-results-card">
+        <div class="no-results-icon">
+          <div class="icon-container">
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+        <h3 class="no-results-title">No pets found</h3>
+        <p class="no-results-message">
+          We couldn't find any pets matching your criteria. Try adjusting your search filters or browse all available pets.
+        </p>
+        <div class="no-results-actions">
+          <button class="primary-btn" (click)="clearFilters()">
+            <i class="fas fa-times"></i>
+            Clear Filters
+          </button>
+          <button class="secondary-btn" (click)="loadPets()">
+            <i class="fas fa-refresh"></i>
+            Show All Pets
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Grid View -->
+    <!-- Modern Grid View -->
     <div *ngIf="!loading && filteredPets.length > 0 && viewMode === 'grid'" class="pets-grid">
-      <div class="row">
-        <div class="col-4" *ngFor="let pet of filteredPets">
-          <div class="pet-card">
-            <img [src]="pet.imageUrl || 'assets/Indie_Dog.jpg'" [alt]="pet.name" class="pet-image" 
-                 (error)="onImageError($event)">
-            <div class="pet-info">
+      <div class="pets-grid-container">
+        <div class="pet-card" *ngFor="let pet of filteredPets; let i = index">
+          <div class="pet-image-container">
+            <img [src]="pet.imageUrl || 'assets/pets/Indie_Dog.jpg'" 
+                 [alt]="pet.name" 
+                 [attr.data-pet-id]="pet.id"
+                 class="pet-image" 
+                 (error)="onImageError($event)"
+                 (load)="onImageLoad($event)"
+                 loading="lazy"
+                 onerror="this.src='assets/pets/Indie_Dog.jpg'">
+            
+            <div class="image-overlay">
+              <div class="pet-status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
+                <i class="fas" [ngClass]="{
+                  'fa-heart': pet.status === 'Available',
+                  'fa-check-circle': pet.status === 'Adopted',
+                  'fa-clock': pet.status === 'Pending'
+                }"></i>
+                {{ pet.status }}
+              </div>
+              <div class="pet-type-badge">
+                <i class="fas" [ngClass]="{
+                  'fa-dog': pet.petType === 'dog',
+                  'fa-cat': pet.petType === 'cat',
+                  'fa-paw': pet.petType === 'other'
+                }"></i>
+              </div>
+            </div>
+            
+            <div class="image-loading" *ngIf="!pet.imageLoaded">
+              <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="pet-info">
+            <div class="pet-header">
               <h3 class="pet-name">{{ pet.name }}</h3>
-              <p class="pet-breed">{{ pet.breed }}</p>
-              <p class="pet-age">{{ pet.age }} years old • {{ pet.size }}</p>
-              <p class="pet-shelter">{{ pet.shelterName }}</p>
-              <div class="pet-status">
-                <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
-                  {{ pet.status }}
-                </span>
+              <div class="pet-age-badge">
+                <i class="fas fa-birthday-cake"></i>
+                {{ pet.age }} years
               </div>
-              <div class="pet-actions pet-actions-spacing">
-                <a [routerLink]="['/pets', pet.id]" class="btn btn-primary btn-block">
-                  View Details
-                </a>
+            </div>
+            
+            <div class="pet-details">
+              <div class="detail-item">
+                <i class="fas fa-dog"></i>
+                <span>{{ pet.breed }}</span>
               </div>
+              <div class="detail-item">
+                <i class="fas fa-home"></i>
+                <span>{{ pet.shelterName }}</span>
+              </div>
+            </div>
+            
+            <div class="pet-actions">
+              <a [routerLink]="['/pets', pet.id]" class="view-details-btn">
+                <div class="btn-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="btn-content">
+                  <div class="btn-title">View Details</div>
+                  <div class="btn-subtitle">Learn more about {{ pet.name }}</div>
+                </div>
+                <div class="btn-arrow">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- List View -->
+    <!-- Modern List View -->
     <div *ngIf="!loading && filteredPets.length > 0 && viewMode === 'list'" class="pets-list">
-      <div class="pet-list-item" *ngFor="let pet of filteredPets">
-        <img [src]="pet.imageUrl || 'assets/Indie_Dog.jpg'" [alt]="pet.name" 
-             class="list-thumb"
-             (error)="onImageError($event)">
-        <div class="pet-details">
-          <h3 class="list-title">
-            {{ pet.name }}
-          </h3>
-          <p class="detail-line">
-            <strong>Breed:</strong> {{ pet.breed }}
-          </p>
-          <p class="detail-line">
-            <strong>Age:</strong> {{ pet.age }} years old • <strong>Size:</strong> {{ pet.size }}
-          </p>
-          <p class="shelter-line">
-            <strong>Shelter:</strong> {{ pet.shelterName }}
-          </p>
-          <p class="description-line">
-            {{ pet.description }}
-          </p>
-          <div class="list-actions">
-            <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
-              {{ pet.status }}
-            </span>
-            <a [routerLink]="['/pets', pet.id]" class="btn btn-primary">
-              View Details
-            </a>
+      <div class="pets-list-container">
+        <div class="pet-list-item" *ngFor="let pet of filteredPets; let i = index">
+          <div class="list-image-container">
+            <img [src]="pet.imageUrl || 'assets/pets/Indie_Dog.jpg'" 
+                 [alt]="pet.name" 
+                 [attr.data-pet-id]="pet.id"
+                 class="list-thumb"
+                 (error)="onImageError($event)"
+                 (load)="onImageLoad($event)"
+                 loading="lazy"
+                 onerror="this.src='assets/pets/Indie_Dog.jpg'">
+            
+            <div class="list-image-overlay">
+              <div class="pet-type-badge">
+                <i class="fas" [ngClass]="{
+                  'fa-dog': pet.petType === 'dog',
+                  'fa-cat': pet.petType === 'cat',
+                  'fa-paw': pet.petType === 'other'
+                }"></i>
+              </div>
+            </div>
+            
+            <div class="image-loading" *ngIf="!pet.imageLoaded">
+              <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="list-pet-content">
+            <div class="list-pet-header">
+              <div class="list-pet-info">
+                <h3 class="list-pet-name">{{ pet.name }}</h3>
+                <div class="list-pet-meta">
+                  <span class="pet-breed">{{ pet.breed }}</span>
+                  <span class="pet-age">{{ pet.age }} years old</span>
+                </div>
+              </div>
+              <div class="list-status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
+                <i class="fas" [ngClass]="{
+                  'fa-heart': pet.status === 'Available',
+                  'fa-check-circle': pet.status === 'Adopted',
+                  'fa-clock': pet.status === 'Pending'
+                }"></i>
+                {{ pet.status }}
+              </div>
+            </div>
+            
+            <div class="list-pet-details">
+              <div class="detail-row">
+                <div class="detail-item">
+                  <i class="fas fa-home"></i>
+                  <span>{{ pet.shelterName }}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>{{ pet.location || 'Location not specified' }}</span>
+                </div>
+              </div>
+              
+              <p class="list-pet-description" *ngIf="pet.description">
+                {{ pet.description }}
+              </p>
+            </div>
+            
+            <div class="list-pet-actions">
+              <a [routerLink]="['/pets', pet.id]" class="list-view-btn">
+                <div class="btn-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <span>View Details</span>
+                <div class="btn-arrow">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>

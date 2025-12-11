@@ -1,63 +1,114 @@
 <div class="contact-container">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+    </div>
+  </div>
+
   <div class="container">
-    <!-- Page Header -->
+    <!-- Modern Page Header -->
     <div class="page-header">
-      <h1 class="page-title">
-        Contact Us
-      </h1>
-      <p class="page-subtitle">
-        Have questions about our platform or need help with an adoption? We're here to help!
-      </p>
+      <div class="header-content">
+        <div class="header-info">
+          <div class="header-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div class="header-text">
+            <h1 class="page-title">Contact Us</h1>
+            <p class="page-subtitle">Have questions about our platform or need help with an adoption? We're here to help!</p>
+          </div>
+        </div>
+        <div class="header-stats">
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">&lt;1hr</div>
+            <div class="stat-label">Response</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-      <!-- Contact Form -->
-      <div class="col-8">
+    <div class="contact-grid">
+      <!-- Modern Contact Form -->
+      <div class="contact-form-section">
         <div class="contact-form-card">
-          <h2>
-            Send us a Message
-          </h2>
-
-          <!-- Alert Messages -->
-          <div *ngIf="alertMessage" class="alert" [ngClass]="alertType">
-            {{ alertMessage }}
+          <div class="card-header">
+            <div class="header-icon">
+              <i class="fas fa-paper-plane"></i>
+            </div>
+            <div class="header-content">
+              <h2 class="card-title">Send us a Message</h2>
+              <p class="card-subtitle">We'll get back to you within 24 hours</p>
+            </div>
           </div>
 
-          <form [formGroup]="contactForm" (ngSubmit)="submitContactForm()">
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <label class="form-label">First Name</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    formControlName="firstName"
-                    placeholder="Your first name">
-                </div>
+          <!-- Modern Alert Messages -->
+          <div *ngIf="alertMessage" class="modern-alert" [ngClass]="alertType">
+            <div class="alert-icon">
+              <i class="fas" [ngClass]="alertType === 'alert-success' ? 'fa-check-circle' : 'fa-exclamation-circle'"></i>
+            </div>
+            <div class="alert-content">
+              <p>{{ alertMessage }}</p>
+            </div>
+            <button class="alert-close" (click)="alertMessage = ''">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <form [formGroup]="contactForm" (ngSubmit)="submitContactForm()" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="fas fa-user"></i>
+                  First Name
+                </label>
+                <input 
+                  type="text" 
+                  class="form-input" 
+                  formControlName="firstName"
+                  placeholder="Enter your first name">
               </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label class="form-label">Last Name</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    formControlName="lastName"
-                    placeholder="Your last name">
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="fas fa-user"></i>
+                  Last Name
+                </label>
+                <input 
+                  type="text" 
+                  class="form-input" 
+                  formControlName="lastName"
+                  placeholder="Enter your last name">
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Email Address</label>
+              <label class="form-label">
+                <i class="fas fa-envelope"></i>
+                Email Address
+              </label>
               <input 
                 type="email" 
-                class="form-control" 
+                class="form-input" 
                 formControlName="email"
                 placeholder="your.email@example.com">
             </div>
 
             <div class="form-group">
-              <label class="form-label">Subject</label>
+              <label class="form-label">
+                <i class="fas fa-tag"></i>
+                Subject
+              </label>
               <select class="form-select" formControlName="subject">
                 <option value="">Select a subject</option>
                 <option value="general">General Inquiry</option>
@@ -69,76 +120,170 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Message</label>
+              <label class="form-label">
+                <i class="fas fa-comment"></i>
+                Message
+              </label>
               <textarea 
-                class="form-control textarea-resizable" 
+                class="form-textarea" 
                 formControlName="message"
                 placeholder="Tell us how we can help you..."
                 rows="6">
               </textarea>
+              <div class="char-count">
+                <span>{{ contactForm.get('message')?.value?.length || 0 }}/500</span>
+              </div>
             </div>
 
-            <button 
-              type="submit" 
-              class="btn btn-primary btn-lg btn-block" 
-              [disabled]="contactForm.invalid || loading">
-              <span *ngIf="loading" class="spinner spinner-inline"></span>
-              {{ loading ? 'Sending...' : 'Send Message' }}
-            </button>
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="submit-btn" 
+                [disabled]="contactForm.invalid || loading">
+                <span *ngIf="loading" class="btn-spinner"></span>
+                <i *ngIf="!loading" class="fas fa-paper-plane"></i>
+                {{ loading ? 'Sending...' : 'Send Message' }}
+              </button>
+            </div>
           </form>
         </div>
       </div>
 
-      <!-- Contact Information -->
-      <div class="col-4">
-        <!-- Contact Details -->
+      <!-- Contact Information Sidebar -->
+      <div class="contact-info-section">
+        <!-- Contact Details Card -->
         <div class="contact-info-card">
-          <h3>
-            Get in Touch
-          </h3>
+          <div class="card-header">
+            <div class="header-icon">
+              <i class="fas fa-address-book"></i>
+            </div>
+            <div class="header-content">
+              <h3 class="card-title">Get in Touch</h3>
+              <p class="card-subtitle">Multiple ways to reach us</p>
+            </div>
+          </div>
           
-          <div class="contact-item">
-            <div class="contact-icon email">
-              <i class="fas fa-envelope" style="color: #3b82f6;"></i>
+          <div class="contact-methods">
+            <div class="contact-item">
+              <div class="contact-icon email">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Email</div>
+                <div class="contact-value">info&#64;pawadopt.com</div>
+                <div class="contact-action">
+                  <a href="mailto:info@pawadopt.com" class="contact-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    Send Email
+                  </a>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="contact-label">Email</div>
-              <div class="contact-value">info&#64;pawadopt.com</div>
-            </div>
-          </div>
 
-          <div class="contact-item">
-            <div class="contact-icon phone">
-              <i class="fas fa-phone" style="color: #10b981;"></i>
+            <div class="contact-item">
+              <div class="contact-icon phone">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Phone</div>
+                <div class="contact-value">(555) 123-4567</div>
+                <div class="contact-action">
+                  <a href="tel:+15551234567" class="contact-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    Call Now
+                  </a>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="contact-label">Phone</div>
-              <div class="contact-value">(555) 123-4567</div>
-            </div>
-          </div>
 
-          <div class="contact-item">
-            <div class="contact-icon address">
-              <i class="fas fa-map-marker-alt" style="color: #f59e0b;"></i>
+            <div class="contact-item">
+              <div class="contact-icon address">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Address</div>
+                <div class="contact-value">123 Pet Street<br>New York, NY 10001</div>
+                <div class="contact-action">
+                  <a href="https://maps.google.com" target="_blank" class="contact-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Map
+                  </a>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="contact-label">Address</div>
-              <div class="contact-value">123 Pet Street<br>New York, NY 10001</div>
-            </div>
-          </div>
 
-          <div class="contact-item">
-            <div class="contact-icon hours">
-              <i class="fas fa-clock" style="color: #8b5cf6;"></i>
-            </div>
-            <div>
-              <div class="contact-label">Hours</div>
-              <div class="contact-value">Mon-Fri: 9AM-6PM<br>Sat-Sun: 10AM-4PM</div>
+            <div class="contact-item">
+              <div class="contact-icon hours">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Business Hours</div>
+                <div class="contact-value">Mon-Fri: 9AM-6PM<br>Sat-Sun: 10AM-4PM</div>
+                <div class="contact-action">
+                  <div class="status-indicator">
+                    <div class="status-dot online"></div>
+                    <span>Currently Online</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        
+        <!-- Quick Help Card -->
+        <div class="quick-help-card">
+          <div class="card-header">
+            <div class="header-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="header-content">
+              <h3 class="card-title">Quick Help</h3>
+              <p class="card-subtitle">Common questions & answers</p>
+            </div>
+          </div>
+          
+          <div class="help-items">
+            <div class="help-item">
+              <div class="help-icon">
+                <i class="fas fa-paw"></i>
+              </div>
+              <div class="help-content">
+                <div class="help-title">Adoption Process</div>
+                <div class="help-desc">Learn how to adopt a pet</div>
+              </div>
+            </div>
+            
+            <div class="help-item">
+              <div class="help-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="help-content">
+                <div class="help-title">Shelter Registration</div>
+                <div class="help-desc">Register your shelter</div>
+              </div>
+            </div>
+            
+            <div class="help-item">
+              <div class="help-icon">
+                <i class="fas fa-cog"></i>
+              </div>
+              <div class="help-content">
+                <div class="help-title">Technical Support</div>
+                <div class="help-desc">Get help with the platform</div>
+              </div>
+            </div>
+            
+            <div class="help-item">
+              <div class="help-icon">
+                <i class="fas fa-handshake"></i>
+              </div>
+              <div class="help-content">
+                <div class="help-title">Partnership</div>
+                <div class="help-desc">Become a partner</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

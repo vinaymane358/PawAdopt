@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { AdoptionRequestService } from '../../services/adoption-request.service';
 import { User } from '../../models/user.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   profileForm: FormGroup;
   editMode = false;
@@ -23,9 +25,12 @@ export class UserProfileComponent implements OnInit {
   pendingRequests = 0;
   approvedRequests = 0;
   rejectedRequests = 0;
+  
+  private alertTimeout: any;
 
   constructor(
     private authService: AuthService,
+    private adoptionRequestService: AdoptionRequestService,
     private fb: FormBuilder
   ) {
     this.profileForm = this.fb.group({
@@ -64,11 +69,28 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadUserStats() {
-    // Mock data - in real app, this would come from a service
-    this.totalRequests = 5;
-    this.pendingRequests = 2;
-    this.approvedRequests = 2;
-    this.rejectedRequests = 1;
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) return;
+
+    console.log('🔍 Loading user stats for:', currentUser);
+    
+    this.adoptionRequestService.getRequestsByUser(currentUser.id).subscribe({
+      next: (requests) => {
+        console.log('✅ Loaded user adoption requests:', requests);
+        this.totalRequests = requests.length;
+        this.pendingRequests = requests.filter(r => r.status === 'Pending').length;
+        this.approvedRequests = requests.filter(r => r.status === 'Approved').length;
+        this.rejectedRequests = requests.filter(r => r.status === 'Rejected').length;
+      },
+      error: (error) => {
+        console.error('❌ Error loading user stats:', error);
+        // Fallback to mock data
+        this.totalRequests = 0;
+        this.pendingRequests = 0;
+        this.approvedRequests = 0;
+        this.rejectedRequests = 0;
+      }
+    });
   }
 
   toggleEditMode() {
@@ -119,5 +141,20 @@ export class UserProfileComponent implements OnInit {
   showAlert(message: string, type: string) {
     this.alertMessage = message;
     this.alertType = `alert-${type}`;
+    
+    // Auto-hide alert after 5 seconds
+    if (this.alertTimeout) {
+      clearTimeout(this.alertTimeout);
+    }
+    
+    this.alertTimeout = setTimeout(() => {
+      this.alertMessage = '';
+    }, 5000);
+  }
+  
+  ngOnDestroy() {
+    if (this.alertTimeout) {
+      clearTimeout(this.alertTimeout);
+    }
   }
 }

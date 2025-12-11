@@ -22,4 +22,19 @@ public interface ShelterRepository extends JpaRepository<Shelter, Long> {
 
     @Query("SELECT s FROM Shelter s JOIN FETCH s.pets")
     List<Shelter> findSheltersWithPets();
+
+    @Query("SELECT s FROM Shelter s LEFT JOIN FETCH s.pets WHERE s.id = :id")
+    Shelter findByIdWithPets(Long id);
+
+    @Query("SELECT s FROM Shelter s LEFT JOIN FETCH s.pets")
+    List<Shelter> findAllWithPets();
+
+    @Query("SELECT s FROM Shelter s LEFT JOIN FETCH s.pets WHERE s.shelterName = :name")
+    List<Shelter> findByShelterNameWithPets(String name);
+
+    @Query("SELECT s FROM Shelter s LEFT JOIN FETCH s.pets WHERE s.phone = :phone")
+    List<Shelter> findByPhoneWithPets(String phone);
+
+    @Query("SELECT s FROM Shelter s LEFT JOIN FETCH s.pets WHERE s.email = :email")
+    Shelter findByEmailWithPets(String email);
 }

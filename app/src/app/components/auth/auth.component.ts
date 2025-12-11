@@ -33,8 +33,9 @@ export class AuthComponent implements OnInit {
 
     this.registerForm = this.fb.group({
       role: ['', [Validators.required]],
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: [''],
+      lastName: [''],
+      shelterName: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -44,6 +45,11 @@ export class AuthComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
+
+    // Add conditional validation based on role
+    this.registerForm.get('role')?.valueChanges.subscribe(role => {
+      this.updateFormValidation(role);
+    });
   }
 
   ngOnInit() {
@@ -134,5 +140,34 @@ export class AuthComponent implements OnInit {
   showAlert(message: string, type: string) {
     this.alertMessage = message;
     this.alertType = `alert-${type}`;
+  }
+
+  updateFormValidation(role: string) {
+    const firstNameControl = this.registerForm.get('firstName');
+    const lastNameControl = this.registerForm.get('lastName');
+    const shelterNameControl = this.registerForm.get('shelterName');
+
+    if (role === 'Shelter') {
+      // For shelter, require shelter name and clear first/last name
+      firstNameControl?.clearValidators();
+      lastNameControl?.clearValidators();
+      shelterNameControl?.setValidators([Validators.required]);
+      firstNameControl?.setValue('');
+      lastNameControl?.setValue('');
+    } else {
+      // For regular users, require first/last name and clear shelter name
+      firstNameControl?.setValidators([Validators.required]);
+      lastNameControl?.setValidators([Validators.required]);
+      shelterNameControl?.clearValidators();
+      shelterNameControl?.setValue('');
+    }
+
+    firstNameControl?.updateValueAndValidity();
+    lastNameControl?.updateValueAndValidity();
+    shelterNameControl?.updateValueAndValidity();
+  }
+
+  get isShelterRole(): boolean {
+    return this.registerForm.get('role')?.value === 'Shelter';
   }
 }

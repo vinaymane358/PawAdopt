@@ -16,11 +16,12 @@ public class ShelterService {
     }
 
     public List<Shelter> getAllShelters() {
-        return shelterRepository.findAll();
+        return shelterRepository.findAllWithPets();
     }
 
     public Optional<Shelter> getShelterById(Long id) {
-        return shelterRepository.findById(id);
+        Shelter shelter = shelterRepository.findByIdWithPets(id);
+        return shelter != null ? Optional.of(shelter) : Optional.empty();
     }
 
     public Shelter saveShelter(Shelter shelter) {
@@ -33,15 +34,28 @@ public class ShelterService {
 
     // ✅ JPQL Service Methods
     public Shelter findByEmail(String email) {
-        return shelterRepository.findByEmail(email);
+        return shelterRepository.findByEmailWithPets(email);
     }
 
     public List<Shelter> findByShelterName(String name) {
-        return shelterRepository.findByShelterName(name);
+        return shelterRepository.findByShelterNameWithPets(name);
     }
 
     public List<Shelter> findByPhone(String phone) {
-        return shelterRepository.findByPhone(phone);
+        // Try exact match first
+        List<Shelter> results = shelterRepository.findByPhoneWithPets(phone);
+        
+        // If no results and phone doesn't start with +, try with + prefix
+        if (results.isEmpty() && !phone.startsWith("+")) {
+            results = shelterRepository.findByPhoneWithPets("+" + phone);
+        }
+        
+        // If still no results and phone starts with +, try without + prefix
+        if (results.isEmpty() && phone.startsWith("+")) {
+            results = shelterRepository.findByPhoneWithPets(phone.substring(1));
+        }
+        
+        return results;
     }
 
     public List<Shelter> findSheltersWithPets() {

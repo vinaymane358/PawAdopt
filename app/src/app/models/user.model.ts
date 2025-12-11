@@ -4,6 +4,7 @@ export interface User {
   password: string;
   firstName: string;
   lastName: string;
+  shelterName?: string;
   phone: string;
   address: string;
   city: string;
@@ -27,6 +28,7 @@ export interface RegisterRequest {
   confirmPassword: string;
   firstName: string;
   lastName: string;
+  shelterName?: string;
   phone: string;
   address: string;
   city: string;

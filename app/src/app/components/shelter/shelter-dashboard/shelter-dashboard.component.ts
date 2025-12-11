@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
@@ -14,7 +14,7 @@ import { AdoptionRequest } from '../../../models/adoption-request.model';
   templateUrl: './shelter-dashboard.component.html',
   styleUrls: ['./shelter-dashboard.component.css']
 })
-export class ShelterDashboardComponent implements OnInit {
+export class ShelterDashboardComponent implements OnInit, OnDestroy {
   myPets: Pet[] = [];
   loading = true;
   currentUser: any = null;
@@ -51,13 +51,31 @@ export class ShelterDashboardComponent implements OnInit {
   }
 
   loadStats() {
-    // Mock stats - in real app, this would come from API
+    // Load real adoption request stats
     this.adoptedPets = this.myPets.filter(pet => pet.status === 'Adopted').length;
-    this.pendingRequests = 3; // Mock data
-    this.totalRequests = 12; // Mock data
+    
+    if (this.currentUser?.id) {
+      this.adoptionRequestService.getRequestsByShelter(this.currentUser.id).subscribe({
+        next: (requests) => {
+          this.pendingRequests = requests.filter(req => req.status === 'Pending').length;
+          this.totalRequests = requests.length;
+        },
+        error: (error) => {
+          console.error('Error loading adoption request stats:', error);
+          // Fallback to mock data
+          this.pendingRequests = 0;
+          this.totalRequests = 0;
+        }
+      });
+    }
   }
 
   onImageError(event: any) {
-    event.target.src = 'img/default-pet.jpg';
+    event.target.src = 'assets/pets/Indie_Dog.jpg';
+  }
+  
+  ngOnDestroy() {
+    // Clean up any subscriptions or timers if needed
+    console.log('Shelter dashboard component destroyed');
   }
 }

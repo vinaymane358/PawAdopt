@@ -4,7 +4,13 @@
     <div class="container">
       <div class="navbar-content">
         <a routerLink="/" class="navbar-brand">
-          <i class="fas fa-paw"></i> PawAdopt
+          <div class="logo-container">
+            <div class="paw-heart">❤️</div>
+            <div class="brand-text">
+              <div class="brand-name">PawAdopt</div>
+              <div class="brand-tagline">PETS COMPLETE YOUR FAMILY</div>
+            </div>
+          </div>
         </a>
         
         <ul class="navbar-nav">
@@ -14,7 +20,7 @@
           <li><a routerLink="/contact" class="nav-link">Contact</a></li>
           
           <ng-container *ngIf="!isAuthenticated">
-            <li><a routerLink="/auth" class="nav-link">Login/Register</a></li>
+            <li><a routerLink="/auth" class="nav-link">Login</a></li>
           </ng-container>
           
           <ng-container *ngIf="isAuthenticated">

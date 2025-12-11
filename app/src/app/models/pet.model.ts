@@ -2,8 +2,8 @@ export interface Pet {
   id: string;
   name: string;
   breed: string;
-  age: number;
-  size: 'Small' | 'Medium' | 'Large';
+  age: string;
+  petType: 'dog' | 'cat' | 'other';
   gender: 'Male' | 'Female';
   color: string;
   description: string;
@@ -13,19 +13,17 @@ export interface Pet {
   status: 'Available' | 'Adopted' | 'Pending';
   location: string;
   vaccinated: boolean;
-  spayedNeutered: boolean;
-  specialNeeds: string;
   createdAt: Date;
   updatedAt: Date;
+  imageLoaded?: boolean;
 }
 
 export interface PetFilters {
   breed?: string;
   age?: string;
-  size?: string;
+  petType?: string;
   location?: string;
   gender?: string;
   vaccinated?: boolean;
-  spayedNeutered?: boolean;
   search?: string;
 }

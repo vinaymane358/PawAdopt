@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/adoption-history")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdoptionHistoryController {
     private final AdoptionHistoryService historyService;
 
@@ -17,49 +18,49 @@ public class AdoptionHistoryController {
     }
 
     @GetMapping
-    public List<AdoptionHistory> getAllHistories() {
-        return historyService.getAllHistories();
+    public List<AdoptionHistory> getAllAdoptionHistory() {
+        return historyService.getAllAdoptionHistory();
     }
 
     @GetMapping("/{id}")
-    public Optional<AdoptionHistory> getHistoryById(@PathVariable Long id) {
-        return historyService.getHistoryById(id);
+    public Optional<AdoptionHistory> getAdoptionHistoryById(@PathVariable Long id) {
+        return historyService.getAdoptionHistoryById(id);
     }
 
     @PostMapping
-    public AdoptionHistory createHistory(@RequestBody AdoptionHistory history) {
-        return historyService.saveHistory(history);
+    public AdoptionHistory createAdoptionHistory(@RequestBody AdoptionHistory adoptionHistory) {
+        return historyService.saveAdoptionHistory(adoptionHistory);
     }
 
     @PutMapping("/{id}")
-    public AdoptionHistory updateHistory(@PathVariable Long id, @RequestBody AdoptionHistory history) {
-        history.setId(id);
-        return historyService.saveHistory(history);
+    public AdoptionHistory updateAdoptionHistory(@PathVariable Long id, @RequestBody AdoptionHistory adoptionHistory) {
+        adoptionHistory.setId(id);
+        return historyService.saveAdoptionHistory(adoptionHistory);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteHistory(@PathVariable Long id) {
-        historyService.deleteHistory(id);
+    public void deleteAdoptionHistory(@PathVariable Long id) {
+        historyService.deleteAdoptionHistory(id);
     }
 
     // Extra endpoints using JPQL
-    @GetMapping("/adopter/{adopterId}")
-    public List<AdoptionHistory> getHistoriesByAdopter(@PathVariable Long adopterId) {
-        return historyService.getHistoriesByAdopter(adopterId);
-    }
-
-    @GetMapping("/shelter/{shelterId}")
-    public List<AdoptionHistory> getHistoriesByShelter(@PathVariable Long shelterId) {
-        return historyService.getHistoriesByShelter(shelterId);
+    @GetMapping("/adopter/{userId}")
+    public List<AdoptionHistory> getAdoptionHistoryByAdopter(@PathVariable Long userId) {
+        return historyService.getAdoptionHistoryByAdopter(userId);
     }
 
     @GetMapping("/pet/{petId}")
-    public List<AdoptionHistory> getHistoriesByPet(@PathVariable Long petId) {
-        return historyService.getHistoriesByPet(petId);
+    public List<AdoptionHistory> getAdoptionHistoryByPet(@PathVariable Long petId) {
+        return historyService.getAdoptionHistoryByPet(petId);
+    }
+
+    @GetMapping("/shelter/{shelterId}")
+    public List<AdoptionHistory> getAdoptionHistoryByShelter(@PathVariable Long shelterId) {
+        return historyService.getAdoptionHistoryByShelter(shelterId);
     }
 
     @GetMapping("/sorted/date")
-    public List<AdoptionHistory> getHistoriesSortedByDate() {
-        return historyService.getHistoriesSortedByDate();
+    public List<AdoptionHistory> getAdoptionHistorySortedByDate() {
+        return historyService.getAdoptionHistorySortedByDate();
     }
 }

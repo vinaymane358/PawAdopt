@@ -1,6 +1,9 @@
 package com.example.springapp.services;
 
 import com.example.springapp.model.AdoptionHistory;
+import com.example.springapp.model.Pet;
+import com.example.springapp.model.Shelter;
+import com.example.springapp.model.User;
 import com.example.springapp.repository.AdoptionHistoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,36 +18,48 @@ public class AdoptionHistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public List<AdoptionHistory> getAllHistories() {
+    public List<AdoptionHistory> getAllAdoptionHistory() {
         return historyRepository.findAll();
     }
 
-    public Optional<AdoptionHistory> getHistoryById(Long id) {
+    public Optional<AdoptionHistory> getAdoptionHistoryById(Long id) {
         return historyRepository.findById(id);
     }
 
-    public AdoptionHistory saveHistory(AdoptionHistory history) {
-        return historyRepository.save(history);
+    public AdoptionHistory saveAdoptionHistory(AdoptionHistory adoptionHistory) {
+        return historyRepository.save(adoptionHistory);
     }
 
-    public void deleteHistory(Long id) {
+    public void deleteAdoptionHistory(Long id) {
         historyRepository.deleteById(id);
     }
 
-    // New methods with JPQL
-    public List<AdoptionHistory> getHistoriesByAdopter(Long adopterId) {
-        return historyRepository.findByAdopterId(adopterId);
+    // Extra methods using JPQL
+    public List<AdoptionHistory> getAdoptionHistoryByAdopter(Long userId) {
+        return historyRepository.findByAdopterId(userId);
     }
 
-    public List<AdoptionHistory> getHistoriesByShelter(Long shelterId) {
-        return historyRepository.findByShelterId(shelterId);
-    }
-
-    public List<AdoptionHistory> getHistoriesByPet(Long petId) {
+    public List<AdoptionHistory> getAdoptionHistoryByPet(Long petId) {
         return historyRepository.findByPetId(petId);
     }
 
-    public List<AdoptionHistory> getHistoriesSortedByDate() {
+    public List<AdoptionHistory> getAdoptionHistoryByShelter(Long shelterId) {
+        return historyRepository.findByShelterId(shelterId);
+    }
+
+    public List<AdoptionHistory> getAdoptionHistorySortedByDate() {
         return historyRepository.findAllSortedByDate();
+    }
+
+    /**
+     * Create adoption history record when a pet is successfully adopted
+     */
+    public AdoptionHistory createAdoptionHistory(User adopter, Pet adoptedPet, Shelter shelter) {
+        AdoptionHistory adoptionHistory = new AdoptionHistory();
+        adoptionHistory.setAdopter(adopter);
+        adoptionHistory.setAdoptedPet(adoptedPet);
+        adoptionHistory.setShelter(shelter);
+        
+        return saveAdoptionHistory(adoptionHistory);
     }
 }

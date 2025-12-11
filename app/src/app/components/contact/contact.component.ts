@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,11 +9,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
   contactForm: FormGroup;
   loading = false;
   alertMessage = '';
   alertType = '';
+  
+  private alertTimeout: any;
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
@@ -44,5 +46,20 @@ export class ContactComponent implements OnInit {
   showAlert(message: string, type: string) {
     this.alertMessage = message;
     this.alertType = `alert-${type}`;
+    
+    // Auto-hide alert after 5 seconds
+    if (this.alertTimeout) {
+      clearTimeout(this.alertTimeout);
+    }
+    
+    this.alertTimeout = setTimeout(() => {
+      this.alertMessage = '';
+    }, 5000);
+  }
+  
+  ngOnDestroy() {
+    if (this.alertTimeout) {
+      clearTimeout(this.alertTimeout);
+    }
   }
 }

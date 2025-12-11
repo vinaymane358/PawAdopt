@@ -1,147 +1,357 @@
 <div class="pet-details-container">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+      <div class="shape shape-6"></div>
+    </div>
+  </div>
+
   <div class="container">
-    <!-- Back Button -->
-    <div class="back-row">
-      <button class="btn btn-outline back-btn" (click)="goBack()">
-        <i class="fas fa-arrow-left"></i>
-        Back to Pets
+    <!-- Modern Back Navigation -->
+    <div class="back-navigation">
+      <button class="back-btn" (click)="goBack()">
+        <div class="back-icon">
+          <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="back-content">
+          <div class="back-title">Back to Pets</div>
+          <div class="back-subtitle">Browse more companions</div>
+        </div>
       </button>
     </div>
 
-    <!-- Loading State -->
+    <!-- Modern Loading State -->
     <div *ngIf="loading" class="loading-container">
-      <div class="spinner"></div>
-      <p>Loading pet details...</p>
+      <div class="loading-card">
+        <div class="loading-spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        <h3>Finding Your Pet...</h3>
+        <p>Please wait while we load the details</p>
+      </div>
     </div>
 
-    <!-- Pet Not Found -->
+    <!-- Modern Pet Not Found -->
     <div *ngIf="!loading && !pet" class="not-found">
-      <i class="fas fa-paw"></i>
-      <h3>Pet not found</h3>
-      <p>The pet you're looking for doesn't exist or has been removed.</p>
-      <button class="btn btn-primary" (click)="goBack()">
-        Back to Pets
-      </button>
+      <div class="not-found-card">
+        <div class="not-found-icon">
+          <div class="icon-container">
+            <i class="fas fa-paw"></i>
+          </div>
+        </div>
+        <h3 class="not-found-title">Pet Not Found</h3>
+        <p class="not-found-message">
+          The pet you're looking for doesn't exist or has been removed from our system.
+        </p>
+        <button class="primary-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Back to Pets
+        </button>
+      </div>
     </div>
 
-    <!-- Pet Details -->
+    <!-- Modern Pet Details -->
     <div *ngIf="!loading && pet" class="pet-details">
-      <div class="row">
-        <!-- Pet Image and Basic Info -->
-        <div class="col-6">
+      <div class="pet-details-grid">
+        <!-- Pet Image Section -->
+        <div class="pet-image-section">
           <div class="pet-image-container">
-            <img [src]="pet.imageUrl || 'assets/Indie_Dog.jpg'" [alt]="pet.name"
+            <img [src]="pet.imageUrl || 'assets/pets/Indie_Dog.jpg'" [alt]="pet.name"
+                 class="pet-image"
                  (error)="onImageError($event)">
+            
+            <div class="image-overlay">
+              <div class="pet-status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
+                <i class="fas" [ngClass]="{
+                  'fa-heart': pet.status === 'Available',
+                  'fa-check-circle': pet.status === 'Adopted',
+                  'fa-clock': pet.status === 'Pending'
+                }"></i>
+                {{ pet.status }}
+              </div>
+              <div class="pet-type-badge">
+                <i class="fas" [ngClass]="{
+                  'fa-dog': pet.petType === 'dog',
+                  'fa-cat': pet.petType === 'cat',
+                  'fa-paw': pet.petType === 'other'
+                }"></i>
+              </div>
+            </div>
           </div>
           
-          
+          <!-- Pet Quick Stats -->
+          <div class="pet-quick-stats">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-birthday-cake"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">{{ pet.age }}</div>
+                <div class="stat-label">Years Old</div>
+              </div>
+            </div>
+            
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-venus-mars"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">{{ pet.gender }}</div>
+                <div class="stat-label">Gender</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Pet Information -->
-        <div class="col-6">
+        <!-- Pet Information Section -->
+        <div class="pet-info-section">
           <div class="pet-info-card">
             <div class="pet-header">
-              <h1>
-                {{ pet.name }}
-              </h1>
-              <p>
-                {{ pet.breed }} • {{ pet.age }} years old • {{ pet.size }}
-              </p>
-              <div class="status-location">
-                <span class="status-badge" [ngClass]="'status-' + pet.status.toLowerCase()">
-                  {{ pet.status }}
-                </span>
-                <span class="location">
-                  <i class="fas fa-map-marker-alt"></i> {{ pet.location }}
-                </span>
+              <div class="pet-title-section">
+                <h1 class="pet-name">{{ pet.name }}</h1>
+                <div class="pet-breed">{{ pet.breed }}</div>
+              </div>
+              
+              <div class="pet-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ pet.location }}</span>
               </div>
             </div>
 
             <!-- Pet Description -->
-            <div class="pet-description">
-              <h3>
-                About {{ pet.name }}
-              </h3>
-              <p>
-                {{ pet.description }}
-              </p>
-            </div>
-
-            <!-- Pet Details -->
-            <div class="pet-details-grid">
-              <div class="detail-item">
-                <strong>Gender:</strong>
-                <span>{{ pet.gender }}</span>
+            <div class="pet-description-section">
+              <div class="section-header">
+                <div class="section-icon">
+                  <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="section-title">About {{ pet.name }}</h3>
               </div>
-              <div class="detail-item">
-                <strong>Color:</strong>
-                <span>{{ pet.color }}</span>
-              </div>
-              <div class="detail-item">
-                <strong>Vaccinated:</strong>
-                <span>
-                  <i class="fas" [class.fa-check]="pet.vaccinated" [class.fa-times]="!pet.vaccinated" 
-                     [style.color]="pet.vaccinated ? '#10b981' : '#ef4444'"></i>
-                </span>
-              </div>
-              <div class="detail-item">
-                <strong>Spayed/Neutered:</strong>
-                <span>
-                  <i class="fas" [class.fa-check]="pet.spayedNeutered" [class.fa-times]="!pet.spayedNeutered" 
-                     [style.color]="pet.spayedNeutered ? '#10b981' : '#ef4444'"></i>
-                </span>
+              <div class="description-content">
+                <p>{{ pet.description }}</p>
               </div>
             </div>
 
-            <!-- Special Needs -->
-            <div *ngIf="pet.specialNeeds && pet.specialNeeds !== 'None'" class="special-needs">
-              <h3>
-                Special Needs
-              </h3>
-              <p>
-                {{ pet.specialNeeds }}
-              </p>
+            <!-- Pet Details Grid -->
+            <div class="pet-details-info">
+              <div class="section-header">
+                <div class="section-icon">
+                  <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3 class="section-title">Pet Details</h3>
+              </div>
+              
+              <div class="details-grid">
+                <div class="detail-card">
+                  <div class="detail-icon">
+                    <i class="fas fa-palette"></i>
+                  </div>
+                  <div class="detail-content">
+                    <div class="detail-label">Color</div>
+                    <div class="detail-value">{{ pet.color }}</div>
+                  </div>
+                </div>
+                
+                <div class="detail-card">
+                  <div class="detail-icon">
+                    <i class="fas fa-shield-alt"></i>
+                  </div>
+                  <div class="detail-content">
+                    <div class="detail-label">Vaccinated</div>
+                    <div class="detail-value" [ngClass]="pet.vaccinated ? 'status-yes' : 'status-no'">
+                      <i class="fas" [class.fa-check]="pet.vaccinated" [class.fa-times]="!pet.vaccinated"></i>
+                      {{ pet.vaccinated ? 'Yes' : 'No' }}
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
             </div>
+
 
             <!-- Shelter Information -->
-            <div class="shelter-info">
-              <h3>
-                <i class="fas fa-home"></i> Shelter Information
-              </h3>
-              <p>
-                <strong>{{ pet.shelterName }}</strong>
-              </p>
-              <p>
-                <i class="fas fa-map-marker-alt"></i> {{ pet.location }}
-              </p>
+            <div class="shelter-info-section">
+              <div class="section-header">
+                <div class="section-icon">
+                  <i class="fas fa-home"></i>
+                </div>
+                <h3 class="section-title">Shelter Information</h3>
+              </div>
+              <div class="shelter-content">
+                <div class="shelter-name">{{ pet.shelterName }}</div>
+                <div class="shelter-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>{{ pet.location }}</span>
+                </div>
+              </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="pet-actions">
+            <div class="pet-actions-section">
+              <div class="action-buttons">
+                <button 
+                  *ngIf="pet.status === 'Available' && isAuthenticated"
+                  class="adopt-btn primary-action" 
+                  (click)="openAdoptionModal()">
+                  <div class="btn-icon">
+                    <i class="fas fa-heart"></i>
+                  </div>
+                  <div class="btn-content">
+                    <div class="btn-title">Adopt {{ pet.name }}</div>
+                    <div class="btn-subtitle">Start your adoption journey</div>
+                  </div>
+                  <div class="btn-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                  </div>
+                </button>
+                
+                <button 
+                  *ngIf="pet.status === 'Available' && !isAuthenticated"
+                  class="login-btn primary-action" 
+                  (click)="goToLogin()">
+                  <div class="btn-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                  </div>
+                  <div class="btn-content">
+                    <div class="btn-title">Login to Adopt</div>
+                    <div class="btn-subtitle">Sign in to start adoption</div>
+                  </div>
+                  <div class="btn-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                  </div>
+                </button>
+                
+                <button 
+                  *ngIf="pet.status !== 'Available'"
+                  class="unavailable-btn secondary-action" 
+                  disabled>
+                  <div class="btn-icon">
+                    <i class="fas" [ngClass]="{
+                      'fa-heart-broken': pet.status === 'Adopted',
+                      'fa-clock': pet.status === 'Pending'
+                    }"></i>
+                  </div>
+                  <div class="btn-content">
+                    <div class="btn-title">
+                      {{ pet.status === 'Adopted' ? 'Already Adopted' : 'Adoption Pending' }}
+                    </div>
+                    <div class="btn-subtitle">
+                      {{ pet.status === 'Adopted' ? 'This pet found a loving home' : 'Adoption in progress' }}
+                    </div>
+                  </div>
+                </button>
+                
+                <button class="share-btn secondary-action" (click)="sharePet()">
+                  <div class="btn-icon">
+                    <i class="fas fa-share"></i>
+                  </div>
+                  <div class="btn-content">
+                    <div class="btn-title">Share</div>
+                    <div class="btn-subtitle">Tell others about {{ pet.name }}</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modern Adoption Experience Feedback Section -->
+      <div class="feedback-section">
+        <div class="feedback-header">
+          <div class="feedback-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div class="feedback-content">
+            <h2 class="feedback-title">Share Your Adoption Experience</h2>
+            <p class="feedback-subtitle">Help other families by sharing your experience with {{ pet.name }}</p>
+          </div>
+        </div>
+
+        <div class="feedback-form">
+          <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="name"
+                  placeholder="Enter your name"
+                  [class.error]="isFieldInvalid('name')">
+                <div class="error-message" *ngIf="isFieldInvalid('name')">
+                  Name is required
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Rating</label>
+                <div class="star-rating">
+                  <span 
+                    *ngFor="let star of stars; let i = index"
+                    class="star"
+                    [class.active]="i < (feedbackForm.get('rating')?.value || 0)"
+                    (click)="setRating(i + 1)">
+                    ★
+                  </span>
+                </div>
+                <div class="error-message" *ngIf="isFieldInvalid('rating')">
+                  Please select a rating
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Experience</label>
+              <textarea 
+                class="form-control" 
+                formControlName="message"
+                rows="4"
+                placeholder="Share your adoption experience with {{ pet.name }}. How has it been? Any tips for other families?"
+                [class.error]="isFieldInvalid('message')">
+              </textarea>
+              <div class="error-message" *ngIf="isFieldInvalid('message')">
+                Please share your experience
+              </div>
+            </div>
+
+            <div class="form-actions">
               <button 
-                *ngIf="pet.status === 'Available' && isAuthenticated"
-                class="btn btn-primary btn-lg grow" 
-                (click)="openAdoptionModal()"
-                >
-                <i class="fas fa-heart"></i> Adopt {{ pet.name }}
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="feedbackForm.invalid || isSubmittingFeedback">
+                <i class="fas fa-paper-plane" *ngIf="!isSubmittingFeedback"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="isSubmittingFeedback"></i>
+                {{ isSubmittingFeedback ? 'Submitting...' : 'Share Experience' }}
               </button>
-              <button 
-                *ngIf="pet.status === 'Available' && !isAuthenticated"
-                class="btn btn-primary btn-lg grow" 
-                (click)="goToLogin()"
-                >
-                <i class="fas fa-sign-in-alt"></i> Login to Adopt
-              </button>
-              <button 
-                *ngIf="pet.status !== 'Available'"
-                class="btn btn-secondary btn-lg grow" 
-                disabled
-                >
-                {{ pet.status === 'Adopted' ? 'Already Adopted' : 'Adoption Pending' }}
-              </button>
-              <button class="btn btn-outline btn-lg" (click)="sharePet()">
-                <i class="fas fa-share"></i> Share
-              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Previous Feedback -->
+        <div class="previous-feedback" *ngIf="previousFeedback.length > 0">
+          <h3>Previous Experiences</h3>
+          <div class="feedback-list">
+            <div class="feedback-item" *ngFor="let feedback of previousFeedback">
+              <div class="feedback-header">
+                <div class="feedback-author">
+                  <strong>{{ feedback.name }}</strong>
+                  <div class="feedback-rating">
+                    <span *ngFor="let star of getStars(feedback.rating)" class="star active">★</span>
+                  </div>
+                </div>
+                <div class="feedback-date">{{ formatDate(feedback.date) }}</div>
+              </div>
+              <p class="feedback-message">{{ feedback.message }}</p>
             </div>
           </div>
         </div>
@@ -149,41 +359,62 @@
     </div>
   </div>
 
-  <!-- Adoption Request Modal -->
-  <div *ngIf="showAdoptionModal" class="modal" (click)="closeAdoptionModal($event)">
+  <!-- Modern Adoption Request Modal -->
+  <div *ngIf="showAdoptionModal" class="adoption-modal" (click)="closeAdoptionModal($event)">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2 class="modal-title">Adopt {{ pet?.name }}</h2>
-        <button class="close-btn" (click)="closeAdoptionModal()">&times;</button>
+        <div class="modal-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="modal-title-section">
+          <h2 class="modal-title">Adopt {{ pet?.name }}</h2>
+          <p class="modal-subtitle">Start your adoption journey</p>
+        </div>
+        <button class="close-btn" (click)="closeAdoptionModal()">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
       
       <div class="modal-body">
-        <p style="margin-bottom: 20px; color: #6b7280;">
-          Please tell us why you'd like to adopt {{ pet?.name }} and what makes you a good fit for this pet.
-        </p>
+        <div class="adoption-intro">
+          <div class="intro-icon">
+            <i class="fas fa-paw"></i>
+          </div>
+          <div class="intro-content">
+            <h3>Tell us about yourself</h3>
+            <p>Please share why you'd like to adopt {{ pet?.name }} and what makes you a great pet parent.</p>
+          </div>
+        </div>
         
         <div class="form-group">
-          <label class="form-label">Your Message</label>
+          <label class="form-label">
+            <i class="fas fa-edit"></i>
+            Your Adoption Message
+          </label>
           <textarea 
-            class="form-control" 
+            class="form-control modern-textarea" 
             [(ngModel)]="adoptionMessage"
-            placeholder="Tell us about yourself and why you'd be a great pet parent..."
-            rows="4"
-            style="resize: vertical; min-height: 100px;">
+            placeholder="Tell us about yourself, your home environment, experience with pets, and why you'd be a great match for {{ pet?.name }}..."
+            rows="6">
           </textarea>
+          <div class="char-count">{{ adoptionMessage.length }}/500</div>
         </div>
       </div>
       
-      <div class="modal-footer" style="display: flex; gap: 12px; justify-content: flex-end;">
-        <button class="btn btn-secondary" (click)="closeAdoptionModal()">
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeAdoptionModal()">
+          <i class="fas fa-times"></i>
           Cancel
         </button>
         <button 
-          class="btn btn-primary" 
+          class="submit-btn" 
           (click)="submitAdoptionRequest()"
           [disabled]="!adoptionMessage.trim() || submittingAdoption">
-          <span *ngIf="submittingAdoption" class="spinner" style="margin-right: 8px;"></span>
-          {{ submittingAdoption ? 'Submitting...' : 'Submit Request' }}
+          <div class="btn-icon" *ngIf="!submittingAdoption">
+            <i class="fas fa-paper-plane"></i>
+          </div>
+          <div class="btn-spinner" *ngIf="submittingAdoption"></div>
+          <span>{{ submittingAdoption ? 'Submitting...' : 'Submit Request' }}</span>
         </button>
       </div>
     </div>

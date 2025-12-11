@@ -1,163 +1,459 @@
-<!-- Hero Section -->
-<section class="hero">
-  <div class="container">
-    <h1>Find Your Perfect Pet Companion</h1>
-    <p>Connect with loving pets waiting for their forever home. Browse our selection of adorable dogs and cats ready for adoption.</p>
-    <div class="hero-actions">
-      <a routerLink="/pets" class="btn btn-primary btn-lg">Browse Pets</a>
-      <a routerLink="/about" class="btn btn-outline btn-lg">Learn More</a>
+<div class="home-container">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="gradient-orb orb-4"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+      <div class="shape shape-6"></div>
+      <div class="shape shape-7"></div>
+      <div class="shape shape-8"></div>
+      <div class="shape shape-9"></div>
+      <div class="shape shape-10"></div>
     </div>
   </div>
-</section>
 
-<!-- Pet Gallery Section removed as requested -->
-
-<!-- Featured Pets Section -->
-<section class="featured-pets-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">
-        Featured Pets
-      </h2>
-      <p class="section-subtitle">
-        Meet some of our amazing pets looking for loving families. Each one has a unique personality and story.
-      </p>
-    </div>
-
-    <div class="row" *ngIf="!loading; else loadingTemplate">
-      <div class="col-4" *ngFor="let pet of featuredPets">
-        <div class="pet-card">
-          <img [src]="pet.imageUrl || 'assets/Indie_Dog.jpg'" [alt]="pet.name" class="pet-image" 
-               (error)="onImageError($event)">
-          <div class="pet-info">
-            <h3 class="pet-name">{{ pet.name }}</h3>
-            <p class="pet-breed">{{ pet.breed }}</p>
-            <p class="pet-age">{{ pet.age }} years old • {{ pet.size }}</p>
-            <p class="pet-shelter">{{ pet.shelterName }}</p>
-            <div class="pet-actions">
-              <a [routerLink]="['/pets', pet.id]" class="btn btn-primary">
-                View Details
-              </a>
+  <!-- Modern Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <i class="fas fa-heart"></i>
+            <span>Connecting Hearts Since 2020</span>
+          </div>
+          <h1 class="hero-title">Their Second Innings Starts With You</h1>
+          <p class="hero-subtitle">Open your heart and give yourself a chance to feel a hurricane of emotions with this four-pawed friend. Every adoption creates a beautiful new beginning.</p>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="stat-number">1000+</div>
+              <div class="stat-label">Happy Adoptions</div>
+            </div>
+            <div class="hero-stat">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Partner Shelters</div>
+            </div>
+            <div class="hero-stat">
+              <div class="stat-number">99%</div>
+              <div class="stat-label">Success Rate</div>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a routerLink="/pets" class="hero-btn primary-btn">
+              <div class="btn-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <div class="btn-content">
+                <div class="btn-title">Browse Pets</div>
+                <div class="btn-subtitle">Find your perfect companion</div>
+              </div>
+              <div class="btn-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </a>
+            <a routerLink="/about" class="hero-btn secondary-btn">
+              <div class="btn-icon">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <div class="btn-content">
+                <div class="btn-title">Learn More</div>
+                <div class="btn-subtitle">Discover our mission</div>
+              </div>
+              <div class="btn-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+        
+        <div class="hero-image">
+          <div class="image-container">
+            <div class="carousel-wrapper" 
+                 (mouseenter)="stopCarousel()" 
+                 (mouseleave)="startCarousel()">
+              <img [src]="getCurrentImage()" 
+                   [alt]="'Pet adoption image ' + (currentImageIndex + 1)" 
+                   class="main-image"
+                   (error)="onImageError($event)">
+              
+              <!-- Carousel Controls -->
+              <button class="carousel-btn prev-btn" (click)="previousImage()" aria-label="Previous image">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="carousel-btn next-btn" (click)="nextImage()" aria-label="Next image">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+              
+              <!-- Carousel Indicators -->
+              <div class="carousel-indicators">
+                <button 
+                  *ngFor="let image of carouselImages; let i = index"
+                  [class.active]="i === currentImageIndex"
+                  (click)="goToImage(i)"
+                  class="indicator"
+                  [attr.aria-label]="'Go to image ' + (i + 1)">
+                </button>
+              </div>
+              
+              <!-- Image Counter -->
+              <div class="image-counter">
+                {{ currentImageIndex + 1 }} / {{ carouselImages.length }}
+              </div>
+              
+              <!-- Image Overlay -->
+              <div class="image-overlay">
+                <div class="overlay-content">
+                  <div class="overlay-icon">
+                    <i class="fas fa-paw"></i>
+                  </div>
+                  <div class="overlay-text">Find Your Perfect Match</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <ng-template #loadingTemplate>
-      <div class="loading-container">
-        <div class="spinner"></div>
-        <p>Loading featured pets...</p>
-      </div>
-    </ng-template>
+<!-- Pet Gallery Section removed as requested -->
 
-    <div class="featured-cta">
-      <a routerLink="/pets" class="btn btn-outline btn-lg">
-        View All Pets
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Statistics Section -->
-<section class="stats">
-  <div class="container">
-    <div class="row">
-      <div class="col-3">
-        <div class="stat-card">
-          <div class="stat-number">500+</div>
-          <div class="stat-label">Pets Adopted</div>
+  <!-- Modern Featured Pets Section -->
+  <section class="featured-pets-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="section-text">
+          <h2 class="section-title">Featured Pets</h2>
+          <p class="section-subtitle">Meet some of our amazing pets looking for loving families. Each one has a unique personality and story waiting to be discovered.</p>
         </div>
       </div>
-      <div class="col-3">
-        <div class="stat-card">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Partner Shelters</div>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="stat-card">
-          <div class="stat-number">1000+</div>
-          <div class="stat-label">Happy Families</div>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="stat-card">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Support Available</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- How It Works Section -->
-<section class="how-it-works">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">
-        How It Works
-      </h2>
-      <p class="section-subtitle">
-        Our simple process makes it easy to find and adopt your perfect pet companion.
-      </p>
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-        <div class="step-card">
-          <div class="step-icon primary">
-            <i class="fas fa-search" style="font-size: 2rem; color: white;"></i>
+      <div *ngIf="!loading; else loadingTemplate" class="pets-grid">
+        <div class="pet-card" *ngFor="let pet of featuredPets; let i = index">
+          <div class="pet-image-container">
+            <img [src]="pet.imageUrl" [alt]="pet.name" class="pet-image" 
+                 (error)="onImageError($event)">
+            
+            <div class="image-overlay">
+              <div class="pet-status-badge">
+                <i class="fas fa-heart"></i>
+                <span>Available</span>
+              </div>
+              <div class="pet-type-badge">
+                <i class="fas fa-paw"></i>
+              </div>
+            </div>
           </div>
-          <h3 class="step-title">
-            1. Browse Pets
-          </h3>
-          <p class="step-text">
-            Search through our database of available pets. Filter by breed, age, size, and location to find your perfect match.
-          </p>
+          
+          <div class="pet-info">
+            <div class="pet-header">
+              <h3 class="pet-name">{{ pet.name }}</h3>
+              <div class="pet-age-badge">{{ pet.age }} years</div>
+            </div>
+            
+            <div class="pet-details">
+              <div class="detail-item">
+                <i class="fas fa-dog"></i>
+                <span>{{ pet.breed }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ pet.shelterName }}</span>
+              </div>
+            </div>
+            
+            <div class="pet-actions">
+              <a [routerLink]="['/pets', pet.id]" class="view-details-btn">
+                <div class="btn-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="btn-content">
+                  <div class="btn-title">View Details</div>
+                  <div class="btn-subtitle">Learn more about {{ pet.name }}</div>
+                </div>
+                <div class="btn-arrow">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="step-card">
-          <div class="step-icon success">
-            <i class="fas fa-heart" style="font-size: 2rem; color: white;"></i>
+
+      <ng-template #loadingTemplate>
+        <div class="loading-container">
+          <div class="loading-card">
+            <div class="loading-spinner">
+              <div class="spinner-ring"></div>
+              <div class="spinner-ring"></div>
+              <div class="spinner-ring"></div>
+            </div>
+            <h3>Loading Featured Pets...</h3>
+            <p>Please wait while we fetch our amazing pets for you</p>
           </div>
-          <h3 class="step-title">
-            2. Submit Request
-          </h3>
-          <p class="step-text">
-            Found a pet you love? Submit an adoption request with your information and why you'd be a great match.
-          </p>
         </div>
-      </div>
-      <div class="col-4">
-        <div class="step-card">
-          <div class="step-icon warning">
-            <i class="fas fa-home" style="font-size: 2rem; color: white;"></i>
+      </ng-template>
+
+      <div class="featured-cta">
+        <a routerLink="/pets" class="cta-btn primary-btn">
+          <div class="btn-icon">
+            <i class="fas fa-paw"></i>
           </div>
-          <h3 class="step-title">
-            3. Welcome Home
-          </h3>
-          <p class="step-text">
-            Once approved, complete the adoption process and welcome your new family member home!
-          </p>
+          <div class="btn-content">
+            <div class="btn-title">View All Pets</div>
+            <div class="btn-subtitle">Discover more amazing companions</div>
+          </div>
+          <div class="btn-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modern Statistics Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card adopted">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+50 this month</span>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Pets Adopted</div>
+            <div class="stat-progress">
+              <div class="progress-bar" style="width: 85%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card shelters">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <i class="fas fa-home"></i>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+5 this quarter</span>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Partner Shelters</div>
+            <div class="stat-progress">
+              <div class="progress-bar" style="width: 70%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card families">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+100 this month</span>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Happy Families</div>
+            <div class="stat-progress">
+              <div class="progress-bar" style="width: 90%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card support">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-check"></i>
+              <span>Always available</span>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support Available</div>
+            <div class="stat-progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Call to Action -->
-<section class="cta">
-  <div class="container">
-    <h2 class="cta-title">
-      Ready to Find Your New Best Friend?
-    </h2>
-    <p class="cta-subtitle">
-      Join thousands of families who have found their perfect pet through PawAdopt.
-    </p>
-    <a routerLink="/pets" class="btn btn-primary btn-lg btn-invert">
-      Start Your Search Today
-    </a>
-  </div>
-</section>
+  <!-- Modern How It Works Section -->
+  <section class="how-it-works-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fas fa-cogs"></i>
+        </div>
+        <div class="section-text">
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">Our simple process makes it easy to find and adopt your perfect pet companion</p>
+        </div>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card search">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3 class="step-title">Browse Pets</h3>
+            <p class="step-text">
+              Search through our database of available pets. Filter by breed, age, size, and location to find your perfect match.
+            </p>
+            <div class="step-features">
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Advanced filters</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Detailed profiles</span>
+              </div>
+            </div>
+          </div>
+          <div class="step-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="step-card request">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <h3 class="step-title">Submit Request</h3>
+            <p class="step-text">
+              Found a pet you love? Submit an adoption request with your information and why you'd be a great match.
+            </p>
+            <div class="step-features">
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Easy application</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Quick approval</span>
+              </div>
+            </div>
+          </div>
+          <div class="step-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="step-card home">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-icon">
+              <i class="fas fa-home"></i>
+            </div>
+            <h3 class="step-title">Welcome Home</h3>
+            <p class="step-text">
+              Once approved, complete the adoption process and welcome your new family member home!
+            </p>
+            <div class="step-features">
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Ongoing support</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Happy ending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modern Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <div class="cta-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h2 class="cta-title">Ready to Find Your New Best Friend?</h2>
+        <p class="cta-subtitle">
+          Join thousands of families who have found their perfect pet through PawAdopt. 
+          Your journey to unconditional love starts here.
+        </p>
+        <div class="cta-stats">
+          <div class="cta-stat">
+            <div class="stat-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Happy Pets</div>
+            </div>
+          </div>
+          <div class="cta-stat">
+            <div class="stat-icon">
+              <i class="fas fa-home"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-number">1000+</div>
+              <div class="stat-label">Loving Families</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta-actions">
+          <a routerLink="/pets" class="cta-btn primary-btn">
+            <div class="btn-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <div class="btn-content">
+              <div class="btn-title">Start Your Search Today</div>
+              <div class="btn-subtitle">Find your perfect companion now</div>
+            </div>
+            <div class="btn-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          <a routerLink="/about" class="cta-btn secondary-btn">
+            <div class="btn-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="btn-content">
+              <div class="btn-title">Learn More</div>
+              <div class="btn-subtitle">Discover our adoption process</div>
+            </div>
+            <div class="btn-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

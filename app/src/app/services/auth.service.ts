@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { User, LoginRequest, RegisterRequest, AuthResponse } from '../models/user.model';
 
 @Injectable({
@@ -10,7 +11,9 @@ export class AuthService {
   currentUser$ = this.currentUserSubject.asObservable();
 
 
-  constructor() {
+  private apiUrl = 'http://localhost:9090/api';
+
+  constructor(private http: HttpClient) {
     // Load user from localStorage on service initialization
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
@@ -18,120 +21,115 @@ export class AuthService {
     }
   }
 
-  login(loginRequest: LoginRequest): Observable<AuthResponse> {
-    // Mock implementation - in real app, this would call an API
-    return new Observable(observer => {
-      setTimeout(() => {
-        // Mock users for testing
-        const mockUsers: User[] = [
-          {
-            id: '1',
-            email: 'user@example.com',
-            password: 'password',
-            firstName: 'John',
-            lastName: 'Doe',
-            phone: '123-456-7890',
-            address: '123 Main St',
-            city: 'New York',
-            state: 'NY',
-            zipCode: '10001',
-            role: 'User',
-            isActive: true,
-            createdAt: new Date(),
-            updatedAt: new Date()
-          },
-           {
-             id: '2',
-             email: 'shelter@example.com',
-             password: 'shelter123',
-             firstName: 'Happy Paws',
-             lastName: 'Shelter',
-             phone: '555-123-4567',
-             address: '456 Pet Street',
-             city: 'New York',
-             state: 'NY',
-             zipCode: '10001',
-             role: 'Shelter',
-             isActive: true,
-             createdAt: new Date(),
-             updatedAt: new Date()
-           },
-           {
-             id: '3',
-             email: 'admin@example.com',
-             password: 'admin123',
-             firstName: 'Admin',
-             lastName: 'User',
-             phone: '123-456-7890',
-             address: '456 Admin St',
-             city: 'New York',
-             state: 'NY',
-             zipCode: '10001',
-             role: 'Admin',
-             isActive: true,
-             createdAt: new Date(),
-             updatedAt: new Date()
-           }
-        ];
+  private extractShelterName(rawUser: any, role: string, firstName?: string, lastName?: string): string | undefined {
+    if (role !== 'Shelter') return undefined;
+    const candidates: Array<string | undefined> = [
+      rawUser?.shelterName,
+      rawUser?.sheltername,
+      rawUser?.shelter_name,
+      rawUser?.name,
+      rawUser?.organizationName,
+      rawUser?.orgName,
+      rawUser?.shelter?.shelterName,
+      rawUser?.shelter?.name,
+      rawUser?.shelter?.displayName,
+      rawUser?.organization?.name
+    ];
+    const picked = candidates.find(v => typeof v === 'string' && v.trim().length > 0)?.trim();
+    if (picked) return picked;
+    const combined = `${(firstName || '').trim()} ${(lastName || '').trim()}`.trim();
+    return combined || undefined;
+  }
 
-        const user = mockUsers.find(u => 
-          u.email === loginRequest.email && 
-          u.password === loginRequest.password && 
-          u.role === loginRequest.role
-        );
-        
-        if (user) {
-          const response: AuthResponse = {
-            user: { ...user, password: '' }, // Don't return password
-            token: 'mock-jwt-token-' + user.id
+  login(loginRequest: LoginRequest): Observable<AuthResponse> {
+    return new Observable(observer => {
+      this.http.post<any>(`${this.apiUrl}/auth/login`, loginRequest).subscribe({
+        next: (response) => {
+          // Convert backend response to frontend format
+          const user: User = {
+            id: response.user.id.toString(),
+            email: response.user.email,
+            password: '', // Don't store password
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            shelterName: this.extractShelterName(response.user, response.user.role, response.user.firstName, response.user.lastName),
+            phone: response.user.phone,
+            address: response.user.address,
+            city: response.user.city,
+            state: response.user.state,
+            zipCode: response.user.zipCode,
+            role: response.user.role,
+            isActive: response.user.isActive,
+            createdAt: new Date(response.user.createdAt),
+            updatedAt: new Date(response.user.updatedAt)
           };
-          
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
+
+          if (user.role === 'Shelter') {
+            user.shelterName = (user.shelterName && user.shelterName.trim()) || 'Unknown Shelter';
+          }
+
+          const authResponse: AuthResponse = {
+            user: user,
+            token: response.token
+          };
+
+          localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('token', response.token);
-          this.currentUserSubject.next(response.user);
+          this.currentUserSubject.next(user);
           
-          observer.next(response);
+          observer.next(authResponse);
           observer.complete();
-        } else {
-          observer.error('Invalid credentials');
+        },
+        error: (error) => {
+          observer.error(error.error || 'Login failed');
         }
-      }, 1000);
+      });
     });
   }
 
   register(registerRequest: RegisterRequest): Observable<AuthResponse> {
-    // Mock implementation
     return new Observable(observer => {
-      setTimeout(() => {
-        const newUser: User = {
-          id: Date.now().toString(),
-          email: registerRequest.email,
-          password: registerRequest.password,
-          firstName: registerRequest.firstName,
-          lastName: registerRequest.lastName,
-          phone: registerRequest.phone,
-          address: registerRequest.address,
-          city: registerRequest.city,
-          state: registerRequest.state,
-          zipCode: registerRequest.zipCode,
-          role: registerRequest.role as 'User' | 'Shelter' | 'Admin' | 'SuperAdmin',
-          isActive: true,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        };
+      this.http.post<any>(`${this.apiUrl}/auth/register`, registerRequest).subscribe({
+        next: (response) => {
+          // Convert backend response to frontend format
+          const user: User = {
+            id: response.user.id.toString(),
+            email: response.user.email,
+            password: '', // Don't store password
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            shelterName: this.extractShelterName(response.user, response.user.role, response.user.firstName, response.user.lastName),
+            phone: response.user.phone,
+            address: response.user.address,
+            city: response.user.city,
+            state: response.user.state,
+            zipCode: response.user.zipCode,
+            role: response.user.role,
+            isActive: response.user.isActive,
+            createdAt: new Date(response.user.createdAt),
+            updatedAt: new Date(response.user.updatedAt)
+          };
 
-        const response: AuthResponse = {
-          user: { ...newUser, password: '' },
-          token: 'mock-jwt-token-' + newUser.id
-        };
+          if (user.role === 'Shelter') {
+            user.shelterName = (user.shelterName && user.shelterName.trim()) || 'Unknown Shelter';
+          }
 
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
-        localStorage.setItem('token', response.token);
-        this.currentUserSubject.next(response.user);
+          const authResponse: AuthResponse = {
+            user: user,
+            token: response.token
+          };
 
-        observer.next(response);
-        observer.complete();
-      }, 1000);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('token', response.token);
+          this.currentUserSubject.next(user);
+
+          observer.next(authResponse);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error.error || 'Registration failed');
+        }
+      });
     });
   }
 
